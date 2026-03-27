@@ -119,8 +119,8 @@ input, textarea { font: inherit; }
 }
 
 .btn-primary:hover {
-  background: var(--gray-700);
-  border-color: var(--gray-700);
+background: var(--gray-700);
+border-color: var(--gray-700);
 }
 
 .btn-outline {
@@ -841,18 +841,9 @@ input, textarea { font: inherit; }
 
 .recurso-title em {
   font-style: normal;
-  background: linear-gradient(
-    90deg,
-    #2b2b2b 0%,
-    #a8a8a8 20%,
-    #ffffff 40%,
-    #cfcfcf 60%,
-    #7a7a7a 80%,
-    #2b2b2b 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #000000;
+  background: none;
+  -webkit-text-fill-color: initial;
 }
 
 .recurso-desc {
