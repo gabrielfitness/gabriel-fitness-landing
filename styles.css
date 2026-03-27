@@ -1374,3 +1374,67 @@ input, textarea { font: inherit; }
 }
 
 .footer-bottom a:hover { color: rgba(255,255,255,0.7); }
+
+/* ============================================
+   MOBILE IMPROVEMENTS — controlled additions only
+   Desktop unchanged. No global selectors.
+   ============================================ */
+
+/* 1. HERO IMAGE — no cropping on mobile */
+@media (max-width: 768px) {
+  .hero-img-wrap img {
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+/* 2. HERO LAYOUT — single column + CTA stacked */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+}
+
+/* 3. TESTIMONIALS — horizontal scroll slider (mobile only) */
+@media (max-width: 768px) {
+  .testimonios-top,
+  .testimonios-bottom {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+    grid-template-columns: unset;
+    max-width: unset;
+  }
+
+  .testimonios-top > *,
+  .testimonios-bottom > * {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+
+  .testimonios-top::-webkit-scrollbar,
+  .testimonios-bottom::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 4. GLOBAL SPACING — safe padding adjustments */
+@media (max-width: 768px) {
+  .section-pad {
+    padding: 48px 0;
+  }
+
+  .container {
+    padding: 0 20px;
+  }
+}
