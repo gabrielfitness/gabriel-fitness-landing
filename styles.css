@@ -843,12 +843,12 @@ input, textarea { font: inherit; }
   font-style: normal;
   background: linear-gradient(
     90deg,
-    #2b2b2b 0%,
-    #a8a8a8 20%,
-    #ffffff 40%,
-    #cfcfcf 60%,
-    #7a7a7a 80%,
-    #2b2b2b 100%
+    #1a1a1a 0%,
+    #6f6f6f 20%,
+    #bfbfbf 35%,
+    #9a9a9a 50%,
+    #6a6a6a 65%,
+    #2a2a2a 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
