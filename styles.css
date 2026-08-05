@@ -389,7 +389,7 @@ input, textarea { font: inherit; }
 
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-img-wrap { aspect-ratio: 16/9; max-height: 380px; }
+  .hero-img-wrap { aspect-ratio: 11/10; max-height: 480px; }
 }
 
 @media (max-width: 480px) {
@@ -1380,12 +1380,25 @@ input, textarea { font: inherit; }
    Desktop unchanged. No global selectors.
    ============================================ */
 
-/* 1. HERO IMAGE — no cropping on mobile */
+/* 1. HERO IMAGE — larger, cropped waist-up on mobile */
 @media (max-width: 768px) {
   .hero-img-wrap img {
-    object-fit: contain;
-    object-position: center;
+    object-fit: cover;
+    object-position: center top;
   }
+
+  .hero-img-badge {
+    bottom: 0.75rem;
+    left: 0.75rem;
+    padding: 0.5rem 0.7rem;
+    gap: 0.5rem;
+  }
+
+  .hero-img-badge-icon { font-size: 1.1rem; }
+
+  .hero-img-badge-text strong { font-size: 0.7rem; }
+
+  .hero-img-badge-text span { font-size: 0.6rem; }
 }
 
 /* 2. HERO LAYOUT — single column + CTA stacked */
