@@ -494,7 +494,7 @@
               <div id="recurso-form-wrap">
                 <h3 class="form-card-title">Recibe tu libro gratis</h3>
                 <p class="form-card-sub">Te lo enviamos al instante a tu email</p>
-                <form id="recursoForm" action="#" method="post" novalidate>
+                <form id="recursoForm" action="https://formspree.io/f/xdennqea" method="post" novalidate>
                   <div class="form-group">
                     <label class="form-label" for="r-nombre">Tu nombre</label>
                     <input class="form-input" type="text" id="r-nombre" name="nombre" placeholder="Ej: María González" autocomplete="given-name" required>
@@ -503,14 +503,14 @@
                     <label class="form-label" for="r-email">Tu email</label>
                     <input class="form-input" type="email" id="r-email" name="email" placeholder="tu@email.com" autocomplete="email" required>
                   </div>
-                  <a href="https://drive.google.com/uc?export=download&id=1kMKv0b5bnyBWV6Ov9HfNe099IRb4zLnI" class="form-submit" style="display:block;text-align:center;text-decoration:none;">Descarga mi libro GRATIS →</a>
+                  <button type="submit" class="form-submit">Descarga mi libro GRATIS →</button>
                   <p class="form-disclaimer">Sin spam. Cancela cuando quieras.</p>
                 </form>
               </div>
               <div class="form-success" id="recurso-success" aria-live="polite">
                 <div class="form-success-icon">🎉</div>
-                <h3 class="form-success-title">¡Listo! Ya está en camino</h3>
-                <p class="form-success-text">Revisa tu email. Bienvenido/a a la comunidad GFIT.</p>
+                <h3 class="form-success-title">¡Listo! Tu descarga está comenzando</h3>
+                <p class="form-success-text">Si no empieza sola, <a href="https://drive.google.com/uc?export=download&id=1kMKv0b5bnyBWV6Ov9HfNe099IRb4zLnI" target="_blank" rel="noopener">hacé clic acá</a>. Bienvenido/a a la comunidad GFIT.</p>
               </div>
             </div>
           </div>
@@ -790,10 +790,33 @@
     (function () {
       var form = document.getElementById('recursoForm');
       if (!form) return;
+      var bookUrl = 'https://drive.google.com/uc?export=download&id=1kMKv0b5bnyBWV6Ov9HfNe099IRb4zLnI';
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        document.getElementById('recurso-form-wrap').style.display = 'none';
-        document.getElementById('recurso-success').classList.add('show');
+        var btn = form.querySelector('button[type="submit"]');
+        var original = btn.textContent;
+        btn.textContent = 'Enviando...';
+        btn.disabled = true;
+        var data = new FormData(form);
+        fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(function (res) {
+          if (res.ok) {
+            document.getElementById('recurso-form-wrap').style.display = 'none';
+            document.getElementById('recurso-success').classList.add('show');
+            window.location.href = bookUrl;
+          } else {
+            btn.textContent = 'Error. Intenta de nuevo';
+            btn.disabled = false;
+          }
+        })
+        .catch(function () {
+          btn.textContent = 'Error de red. Intenta de nuevo';
+          btn.disabled = false;
+        });
       });
     })();
 
