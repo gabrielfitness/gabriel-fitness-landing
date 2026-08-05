@@ -97,12 +97,42 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="c-altura">Altura (cm)</label>
-              <input class="form-input" type="number" inputmode="numeric" id="c-altura" name="altura" min="120" max="230" step="1" placeholder="Ej: 170" required>
+              <div class="form-label-row">
+                <label class="form-label" for="c-altura">Altura</label>
+                <div class="choice-group choice-group--compact" role="radiogroup" aria-label="Unidad de altura">
+                  <label class="choice-card choice-card--compact">
+                    <input type="radio" name="alturaUnidad" value="cm" checked>
+                    <span class="choice-card-title">cm</span>
+                  </label>
+                  <label class="choice-card choice-card--compact">
+                    <input type="radio" name="alturaUnidad" value="ftin">
+                    <span class="choice-card-title">ft/in</span>
+                  </label>
+                </div>
+              </div>
+              <div id="alturaCmWrap">
+                <input class="form-input" type="number" inputmode="numeric" id="c-altura" name="altura" min="120" max="230" step="1" placeholder="Ej: 170" required>
+              </div>
+              <div id="alturaFtInWrap" class="altura-ftin-row" style="display:none;">
+                <input class="form-input" type="number" inputmode="numeric" id="c-altura-ft" min="3" max="8" step="1" placeholder="Pies">
+                <input class="form-input" type="number" inputmode="numeric" id="c-altura-in" min="0" max="11" step="1" placeholder="Pulgadas">
+              </div>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="c-peso">Peso (kg)</label>
+              <div class="form-label-row">
+                <label class="form-label" for="c-peso">Peso</label>
+                <div class="choice-group choice-group--compact" role="radiogroup" aria-label="Unidad de peso">
+                  <label class="choice-card choice-card--compact">
+                    <input type="radio" name="pesoUnidad" value="kg" checked>
+                    <span class="choice-card-title">kg</span>
+                  </label>
+                  <label class="choice-card choice-card--compact">
+                    <input type="radio" name="pesoUnidad" value="lb">
+                    <span class="choice-card-title">lb</span>
+                  </label>
+                </div>
+              </div>
               <input class="form-input" type="number" inputmode="decimal" id="c-peso" name="peso" min="30" max="250" step="0.1" placeholder="Ej: 70" required>
             </div>
 
@@ -181,9 +211,16 @@
 
             <p class="calc-note">Estos valores son una referencia de partida basada en fórmulas estándar (Mifflin-St Jeor), no una prescripción exacta. Tu cuerpo puede responder distinto — lo ideal es ajustar según cómo evoluciones en las primeras semanas.</p>
 
+            <p class="calc-note">Si estás embarazada, eres menor de edad, o tienes una condición médica, consulta a un profesional de salud antes de aplicar estos valores.</p>
+
             <div class="hero-cta-group">
               <a href="https://wa.me/50764013464?text=Hola%20Gabriel%2C%20hice%20el%20c%C3%A1lculo%20de%20mis%20calor%C3%ADas%20y%20tengo%20una%20duda%20sobre%20c%C3%B3mo%20aplicarlo" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">Tengo una duda, hablemos por WhatsApp</a>
               <a href="https://www.skool.com/noimportadondeestes-3289/about" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Prefiero unirme a la comunidad gratis</a>
+            </div>
+
+            <div class="calc-share">
+              <button type="button" class="btn btn-outline" id="shareBtn">Compartir mi resultado</button>
+              <span class="calc-share-feedback" id="shareFeedback" aria-live="polite"></span>
             </div>
 
           </div>
@@ -238,6 +275,50 @@
       });
     })();
 
+    // ---- CONVERSIÓN DE UNIDADES (peso y altura) ----
+    (function () {
+      var pesoInput = document.getElementById('c-peso');
+      var alturaCmWrap = document.getElementById('alturaCmWrap');
+      var alturaFtInWrap = document.getElementById('alturaFtInWrap');
+      var alturaCmInput = document.getElementById('c-altura');
+      var alturaFtInput = document.getElementById('c-altura-ft');
+      var alturaInInput = document.getElementById('c-altura-in');
+      if (!pesoInput || !alturaCmWrap) return;
+
+      document.querySelectorAll('input[name="pesoUnidad"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          pesoInput.value = '';
+          if (radio.value === 'lb' && radio.checked) {
+            pesoInput.min = 66; pesoInput.max = 550; pesoInput.placeholder = 'Ej: 155';
+          } else if (radio.checked) {
+            pesoInput.min = 30; pesoInput.max = 250; pesoInput.placeholder = 'Ej: 70';
+          }
+        });
+      });
+
+      document.querySelectorAll('input[name="alturaUnidad"]').forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          if (!radio.checked) return;
+          alturaCmInput.value = '';
+          alturaFtInput.value = '';
+          alturaInInput.value = '';
+          if (radio.value === 'ftin') {
+            alturaCmWrap.style.display = 'none';
+            alturaFtInWrap.style.display = 'grid';
+            alturaCmInput.required = false;
+            alturaFtInput.required = true;
+            alturaInInput.required = true;
+          } else {
+            alturaCmWrap.style.display = 'block';
+            alturaFtInWrap.style.display = 'none';
+            alturaCmInput.required = true;
+            alturaFtInput.required = false;
+            alturaInInput.required = false;
+          }
+        });
+      });
+    })();
+
     // ---- CALCULADORA DE CALORÍAS Y MACROS ----
     (function () {
       var form = document.getElementById('calcForm');
@@ -257,10 +338,22 @@
 
         var sexo = form.sexo.value;
         var edad = parseFloat(form.edad.value);
-        var altura = parseFloat(form.altura.value);
-        var peso = parseFloat(form.peso.value);
         var actividad = form.actividad.value;
         var objetivo = form.objetivo.value;
+
+        var pesoUnidad = document.querySelector('input[name="pesoUnidad"]:checked').value;
+        var pesoRaw = parseFloat(form.peso.value);
+        var peso = pesoUnidad === 'lb' ? pesoRaw * 0.453592 : pesoRaw;
+
+        var alturaUnidad = document.querySelector('input[name="alturaUnidad"]:checked').value;
+        var altura;
+        if (alturaUnidad === 'ftin') {
+          var pies = parseFloat(document.getElementById('c-altura-ft').value) || 0;
+          var pulgadas = parseFloat(document.getElementById('c-altura-in').value) || 0;
+          altura = (pies * 30.48) + (pulgadas * 2.54);
+        } else {
+          altura = parseFloat(form.altura.value);
+        }
 
         var bmr = sexo === 'hombre'
           ? (10 * peso) + (6.25 * altura) - (5 * edad) + 5
@@ -286,6 +379,33 @@
 
         results.classList.add('calc-results--show');
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    })();
+
+    // ---- COMPARTIR RESULTADO ----
+    (function () {
+      var shareBtn = document.getElementById('shareBtn');
+      var feedback = document.getElementById('shareFeedback');
+      if (!shareBtn) return;
+
+      function showFeedback(msg) {
+        feedback.textContent = msg;
+        setTimeout(function () { feedback.textContent = ''; }, 2500);
+      }
+
+      shareBtn.addEventListener('click', function () {
+        var calorias = document.getElementById('resCalorias').textContent;
+        var texto = 'Mis calorías diarias objetivo son ' + calorias + ' — calculado en gabrielgfitness.com/calculadora';
+
+        if (navigator.share) {
+          navigator.share({ text: texto }).catch(function () {});
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(texto)
+            .then(function () { showFeedback('¡Copiado!'); })
+            .catch(function () { showFeedback('No se pudo copiar'); });
+        } else {
+          showFeedback('No se pudo copiar');
+        }
       });
     })();
   </script>
