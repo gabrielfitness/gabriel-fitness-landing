@@ -345,7 +345,7 @@
             <div class="quote-mark">"</div>
             <p class="testimonio-text">Mejoré mis hábitos y mi alimentación por completo. Lo más increíble: entrené durante 9 meses de embarazo con total seguridad y bienestar.</p>
             <div class="testimonio-author">
-              <div class="t-avatar" aria-hidden="true">YR</div>
+              <img class="t-avatar" src="img/testimonios/IMG_3674.webp" alt="" style="object-position: 46% 23%;">
               <div>
                 <div class="t-name">Yurielis Ramos</div>
                 <div class="t-role">Doctora</div>
@@ -358,7 +358,7 @@
             <div class="quote-mark">"</div>
             <p class="testimonio-text">Logré adaptar mi trabajo y mi entrenamiento perfectamente a mi estilo de vida. No más sentirme culpable por no ir al gym.</p>
             <div class="testimonio-author">
-              <div class="t-avatar" aria-hidden="true">EH</div>
+              <img class="t-avatar" src="img/testimonios/IMG_3675.webp" alt="" style="object-position: 51% 30%;">
               <div>
                 <div class="t-name">Elliot Hewitt</div>
                 <div class="t-role">Trader</div>
@@ -371,7 +371,7 @@
             <div class="quote-mark">"</div>
             <p class="testimonio-text">Bajé de peso sin pasar hambre y sin perder tiempo para mi negocio. Gabriel entiende que tenemos vidas ocupadas.</p>
             <div class="testimonio-author">
-              <div class="t-avatar" aria-hidden="true">OJ</div>
+              <img class="t-avatar" src="img/testimonios/IMG_3676.webp" alt="" style="object-position: 55% 28%;">
               <div>
                 <div class="t-name">OseilleTV (Julien)</div>
                 <div class="t-role">Emprendedor digital</div>
@@ -389,7 +389,7 @@
             <div class="quote-mark">"</div>
             <p class="testimonio-text">Ahora tengo la energía que necesito para todos mis proyectos personales. Dormía fatal y estaba estresado — todo cambió.</p>
             <div class="testimonio-author">
-              <div class="t-avatar" aria-hidden="true">AD</div>
+              <img class="t-avatar" src="img/testimonios/IMG_3677.webp" alt="" style="object-position: 51% 34%;">
               <div>
                 <div class="t-name">Arnaud Duquesne</div>
                 <div class="t-role">Emprendedor</div>
@@ -402,7 +402,7 @@
             <div class="quote-mark">"</div>
             <p class="testimonio-text">Bajé todos los kilos, aprendí a comer y a entrenar de verdad. Por primera vez en años me siento excelente conmigo misma.</p>
             <div class="testimonio-author">
-              <div class="t-avatar" aria-hidden="true">AA</div>
+              <img class="t-avatar" src="img/testimonios/IMG_3678.webp" alt="" style="object-position: 52% 12%;">
               <div>
                 <div class="t-name">Ana Aguilar</div>
                 <div class="t-role">Doctora</div>
@@ -659,8 +659,9 @@
             <h3 class="coaching-card-title">Coaching 1:1 con Gabriel</h3>
             <p class="coaching-card-sub">Consulta disponibilidad y precios</p>
             <div class="coaching-price">PREMIUM</div>
+            <p class="coaching-presencial">Incluye encuentros presenciales — disponible solo en Panamá</p>
             <p class="coaching-price-note">Plazas limitadas por mes — consulta disponibilidad</p>
-            <a href="#contacto" class="btn btn-white btn-lg btn-full">Quiero el Coaching 1:1 →</a>
+            <a href="https://wa.me/50764013464?text=Hola%20Gabriel%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Coaching%201%3A1" target="_blank" rel="noopener noreferrer" class="btn btn-white btn-lg btn-full">Quiero el Coaching 1:1 →</a>
             <p class="coaching-note">Empieza con la comunidad gratuita y decide después</p>
           </div>
 
@@ -741,16 +742,34 @@
       var btn = document.getElementById('menuBtn');
       var menu = document.getElementById('mobileMenu');
       if (!btn || !menu) return;
+
+      function closeMenu() {
+        menu.classList.remove('mobile-menu--open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+
       btn.addEventListener('click', function () {
         var open = menu.classList.contains('mobile-menu--open');
         menu.classList.toggle('mobile-menu--open');
         btn.setAttribute('aria-expanded', !open);
       });
+
       menu.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () {
-          menu.classList.remove('mobile-menu--open');
-          btn.setAttribute('aria-expanded', 'false');
-        });
+        a.addEventListener('click', closeMenu);
+      });
+
+      window.addEventListener('scroll', function () {
+        if (menu.classList.contains('mobile-menu--open')) closeMenu();
+      }, { passive: true });
+
+      document.addEventListener('click', function (e) {
+        if (!menu.classList.contains('mobile-menu--open')) return;
+        if (menu.contains(e.target) || btn.contains(e.target)) return;
+        closeMenu();
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.classList.contains('mobile-menu--open')) closeMenu();
       });
     })();
 
