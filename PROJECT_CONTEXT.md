@@ -69,3 +69,11 @@ Cada IA debe:
 - Repositorio verificado.
 - Rama `gfit-3d-body-v1` creada desde `main`.
 - Próximo paso: iniciar con Work + GPT-6 Astra una prueba funcional del cuerpo 3D deformable antes de integrar cuentas, pagos, fotos o anatomía completa.
+
+## M1 — decisión técnica y preparación (2026-09-23)
+- Inspeccionados `index.html`, `styles.css`, `script.js`, `calculadora.html`, estructura y últimos commits. Base de trabajo: `05458d4`.
+- Arquitectura: HTML/CSS/JS estático aislado (`modelo-3d.*`), Three.js 0.180.0 local en `vendor/three`, GLB en `models`. Sin React, bundler ni cambios en la landing.
+- Elegida malla exterior MakeHuman CC0; fuentes, licencia, modificaciones y decisión en `THIRD_PARTY_ASSETS.md`. No se incorpora código AGPL de la aplicación.
+- GLB masculino de prueba: 13,380 vértices / 26,756 triángulos / 482,724 bytes. Conversor reproducible `tools/build-body.py`; mapa de vértices conservado para morph targets futuros.
+- Preparación completada; visor y validación de navegador pendientes en el siguiente commit. M2–M6 todavía no implementados.
+- Referencia de main al comenzar: `0e8f407989deb19f7157cf3f7b2d8f24b536f257`. No merge ni despliegue autorizados.
