@@ -77,3 +77,14 @@ Cada IA debe:
 - GLB masculino de prueba: 13,380 vértices / 26,756 triángulos / 482,724 bytes. Conversor reproducible `tools/build-body.py`; mapa de vértices conservado para morph targets futuros.
 - Preparación completada; visor y validación de navegador pendientes en el siguiente commit. M2–M6 todavía no implementados.
 - Referencia de main al comenzar: `0e8f407989deb19f7157cf3f7b2d8f24b536f257`. No merge ni despliegue autorizados.
+
+## M1 — completado (2026-09-23)
+- Implementados `modelo-3d.html`, `modelo-3d.css`, `modelo-3d.js`: GLB visible, rotación 360°, zoom limitado, vistas frente/perfil/espalda, reset, teclado, arrastre táctil y pellizco.
+- Diseño blanco/negro consistente con GFIT; página independiente, sin enlace nuevo desde la landing. Modelo masculino identificado como prueba; sin controles falsos de M2–M6.
+- Rendimiento: GLB ~483 KB, sin texturas ni sombras dinámicas; Three.js local; DPR máximo 1.5; render bajo demanda. Carga con timeout, error y reintento; WebGL 2 requerido.
+- Validado con Playwright/Chromium y WebGL de software: render/píxeles, vuelta 360°, vistas, ratón, zoom/límite, reset, teclado, eventos táctiles y pellizco, responsive 320/390/768/1440, 404/reintento, falta de WebGL y pérdida de contexto. Sin errores JS/HTTP ni solicitudes externas en visor.
+- Validador Khronos glTF: 0 errores y 0 advertencias. Landing/calculadora sin cambios de contenido; menú móvil y cálculo probados.
+- Prueba reproducible: `tools/verify-3d.cjs`. Instrucciones de ejecución local, capturas, limitaciones y resultados en `docs/MILESTONE_1.md`.
+- Pendiente: pruebas físicas en Safari/iOS y Android; no se declara rendimiento móvil medido en hardware real.
+- Siguiente milestone M2: deltas de peso/músculo de MakeHuman en la misma topología. El GLB M1 no contiene morph targets aún. M3–M6 pendientes. Base femenina prevista desde la misma malla/targets oficiales CC0.
+- Main no modificado; sin merge ni despliegue. Continuar colaborando mediante esta rama y este contexto.

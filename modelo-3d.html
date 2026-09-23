@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#ffffff">
+  <title>Body Progress Model · Gabriel Fitness</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./modelo-3d.css">
+  <script type="importmap">
+    {"imports":{"three":"./vendor/three/three.module.min.js","three/addons/":"./vendor/three/addons/"}}
+  </script>
+  <script type="module" src="./modelo-3d.js"></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="./index.html" aria-label="Gabriel Fitness, inicio">Gabriel Fitness<span>GFIT LAB</span></a>
+    <a class="back-link" href="./index.html">Volver a Gabriel Fitness <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">TU PROGRESO, OTRA PERSPECTIVA</p><h1 id="title">Body Progress<span>Model.</span></h1></div>
+      <p class="intro-copy">Explora tu punto de partida.<br>Gira el cuerpo y descubre cada ángulo.</p>
+    </section>
+    <div class="workspace">
+      <section class="viewer-panel" aria-label="Explorador corporal 3D">
+        <div class="viewer-heading"><span class="pill">VISTA 3D</span><span>01 / EXPLORAR</span></div>
+        <div id="viewport" class="viewport" aria-busy="true">
+          <canvas id="body-canvas" tabindex="0" aria-label="Cuerpo humano 3D. Usa las flechas para girar y las teclas más y menos para acercar o alejar." aria-describedby="gesture-help"></canvas>
+          <div id="loading" class="loading"><span class="loading-mark" aria-hidden="true">GFIT</span><p>Preparando tu vista 3D…</p></div>
+        </div>
+        <div class="viewer-footer">
+          <p id="gesture-help">Arrastra para girar · Pellizca o usa la rueda para acercar</p>
+          <p id="status" role="status" aria-live="polite">Cargando modelo…</p>
+          <button id="retry" type="button" hidden>Volver a intentar</button>
+        </div>
+      </section>
+      <aside class="controls-panel" aria-labelledby="explore-title">
+        <span class="pill">PROTOTIPO · MILESTONE 1</span>
+        <h2 id="explore-title">Míralo desde<br>todos los ángulos.</h2>
+        <p>Un primer paso para visualizar tu evolución. Empieza explorando el cuerpo en 360°.</p>
+        <fieldset id="viewer-controls" disabled>
+          <legend>Tu perspectiva</legend>
+          <div class="view-buttons" aria-label="Vistas rápidas">
+            <button type="button" data-view="front">Frente</button>
+            <button type="button" data-view="side">Perfil</button>
+            <button type="button" data-view="back">Espalda</button>
+          </div>
+          <div class="control-label">Girar</div>
+          <div class="pair">
+            <button type="button" id="rotate-left" aria-label="Girar cuerpo a la izquierda">← <span>Izquierda</span></button>
+            <button type="button" id="rotate-right" aria-label="Girar cuerpo a la derecha"><span>Derecha</span> →</button>
+          </div>
+          <div class="control-label">Acercar o alejar</div>
+          <div class="pair">
+            <button type="button" id="zoom-out" aria-label="Alejar modelo">− <span>Alejar</span></button>
+            <button type="button" id="zoom-in" aria-label="Acercar modelo">+ <span>Acercar</span></button>
+          </div>
+          <button type="button" id="reset" class="primary">Restablecer vista <span aria-hidden="true">↺</span></button>
+        </fieldset>
+        <div class="prototype-note"><span class="note-number">01</span><div><strong>Primero, explorar.</strong><p>Modelo masculino de prueba. La personalización corporal llegará en la siguiente etapa.</p></div></div>
+      </aside>
+    </div>
+    <footer class="page-footer"><p>Una visualización orientativa. Tu progreso es personal.</p><span>GABRIEL FITNESS / BODY LAB</span></footer>
+    <noscript><p class="noscript">Activa JavaScript en tu navegador para explorar el modelo 3D.</p></noscript>
+  </main>
+</body>
+</html>
