@@ -17,7 +17,7 @@ Abrir **http://localhost:8000/modelo-3d.html**. El visor requiere HTTP; abrir el
 
 Para probar en un teléfono real conectado a la misma Wi-Fi, abrir `http://IP-LOCAL-DEL-COMPUTADOR:8000/modelo-3d.html`. El servidor es de desarrollo; detenerlo con Ctrl+C después de probar.
 
-Si el repositorio ya está clonado, guardar primero cualquier trabajo propio y usar la rama `gfit-3d-body-v1`; no sobrescribir cambios de Claude ni cambiar a `main` para esta prueba.
+Si el repositorio ya está clonado, guardar primero cualquier trabajo propio y usar la rama `gfit-3d-body-v1`; no cambiar a `main` para esta prueba.
 
 ## Qué funciona
 
@@ -73,6 +73,6 @@ M1 valida exclusivamente el exterior visible y navegable. El modelo es provision
 
 M3 presets, M4 grupo muscular independiente, M5 hombre/mujer y M6 línea temporal siguen pendientes, en ese orden. No hay controles ficticios para funciones aún no implementadas.
 
-## Para continuar con Claude
+## Para continuar con Work + GPT-6 Astra
 
-Leer primero `PROJECT_CONTEXT.md` en esta rama y revisar los commits recientes. La landing usa su CSS/JS original; el visor solo usa `modelo-3d.css` y `modelo-3d.js`. `THIRD_PARTY_ASSETS.md` contiene licencias y procedencia. No cambiar IDs de vértices al incorporar morphs. No mergear ni desplegar sin autorización de Gabriel.
+Leer primero `PROJECT_CONTEXT.md` en esta rama y revisar los commits recientes. La landing usa su CSS/JS original; el visor solo usa `modelo-3d.css` y `modelo-3d.js`. `THIRD_PARTY_ASSETS.md` contiene licencias y procedencia. No cambiar IDs de vértices al incorporar morphs. No mergear ni desplegar sin autorización de Gabriel. Claude no participa en esta fase salvo autorización explícita posterior.
