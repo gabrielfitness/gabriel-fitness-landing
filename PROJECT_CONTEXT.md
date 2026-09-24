@@ -4,11 +4,16 @@
 GFIT 3D Body Progress Model — módulo interactivo para Gabriel Fitness.
 
 ## Fuente de verdad
-GitHub es la fuente de verdad compartida entre ChatGPT/Astra y Claude. Antes de trabajar, revisar:
+GitHub es la fuente de verdad del proyecto. Antes de trabajar, revisar:
 1. rama activa;
 2. últimos commits;
 3. este archivo;
 4. archivos modificados recientemente.
+
+## Agente activo durante esta fase
+- La implementación de esta V1 la realiza exclusivamente **ChatGPT Work con GPT-6 Astra**.
+- **Claude no participa en el desarrollo actual** y no debe modificar esta rama ni continuar milestones salvo autorización explícita posterior de Gabriel.
+- Si en el futuro Gabriel decide incorporar Claude u otro agente, primero se actualizará este archivo y se definirá una rama/alcance separado.
 
 ## Repositorio
 `gabrielfitness/gabriel-fitness-landing`
@@ -16,7 +21,7 @@ GitHub es la fuente de verdad compartida entre ChatGPT/Astra y Claude. Antes de 
 ## Regla de ramas
 - No trabajar directamente sobre `main`.
 - Desarrollo principal de esta V1: `gfit-3d-body-v1`.
-- Si Claude crea trabajo paralelo, debe hacerlo en una rama separada y documentar aquí cualquier decisión relevante antes de mergear.
+- No iniciar trabajo paralelo con Claude u otro agente durante esta fase.
 
 ## Sitio actual
 Landing estática en HTML/CSS/JS:
@@ -55,10 +60,10 @@ Hombros, pecho, bíceps, tríceps, espalda, abdomen/cintura, glúteos, cuádrice
 - usar morph targets/blend shapes para transiciones corporales y musculares;
 - BodyParts3D/Human Atlas puede servir más adelante como base anatómica para la vista muscular avanzada, pero no es requisito para validar la primera V1.
 
-## Flujo de colaboración
-Cada IA debe:
+## Flujo de trabajo
+Work/Astra debe:
 - leer este archivo antes de modificar el proyecto;
-- documentar aquí decisiones de arquitectura que afecten al otro agente;
+- documentar aquí decisiones de arquitectura importantes;
 - hacer commits pequeños y descriptivos;
 - evitar cambios en `main` sin revisión;
 - indicar archivos tocados y motivo en el mensaje de commit o PR.
@@ -87,4 +92,4 @@ Cada IA debe:
 - Prueba reproducible: `tools/verify-3d.cjs`. Instrucciones de ejecución local, capturas, limitaciones y resultados en `docs/MILESTONE_1.md`.
 - Pendiente: pruebas físicas en Safari/iOS y Android; no se declara rendimiento móvil medido en hardware real.
 - Siguiente milestone M2: deltas de peso/músculo de MakeHuman en la misma topología. El GLB M1 no contiene morph targets aún. M3–M6 pendientes. Base femenina prevista desde la misma malla/targets oficiales CC0.
-- Main no modificado; sin merge ni despliegue. Continuar colaborando mediante esta rama y este contexto.
+- Main no modificado; sin merge ni despliegue. Continuar exclusivamente con Work/Astra mediante esta rama y este contexto.
