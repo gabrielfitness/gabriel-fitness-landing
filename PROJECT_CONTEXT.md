@@ -93,3 +93,11 @@ Work/Astra debe:
 - Pendiente: pruebas físicas en Safari/iOS y Android; no se declara rendimiento móvil medido en hardware real.
 - Siguiente milestone M2: deltas de peso/músculo de MakeHuman en la misma topología. El GLB M1 no contiene morph targets aún. M3–M6 pendientes. Base femenina prevista desde la misma malla/targets oficiales CC0.
 - Main no modificado; sin merge ni despliegue. Continuar exclusivamente con Work/Astra mediante esta rama y este contexto.
+
+## M2 — motor y assets validados (2026-10-06)
+- Base de esta ejecución: `7059c66`; leídos contexto, M1, assets y commits actualizados. Exclusividad Work/Astra respetada.
+- `models/body-male-parametric.glb`: 8 morph targets relativos de posición y normales, derivados de los 9 targets conjuntos peso/músculo masculino joven de MakeHuman. Licencias/fuentes en `THIRD_PARTY_ASSETS.md` y manifiesto nuevo.
+- `body-male.glb` y su mapa de IDs de M1 se conservan intactos. Buffers base POSITION/NORMAL/índices idénticos byte a byte; sin escala global.
+- Interpolación bilineal no negativa en `modelo-3d-morphs.js`; slider 0–100 representa parámetro visual MakeHuman 0.1–0.9; neutral 50 equivale exactamente a M1.
+- 121 combinaciones: sin nuevas intersecciones ni triángulos colapsados; 8 contactos internos de boca preexistentes en M1 registrados como limitación. Revisión frontal/lateral/posterior de extremos sin roturas corporales visibles. Khronos: 0 errores/0 advertencias.
+- Documentación inicial y reporte en `docs/MILESTONE_2.md`, `docs/milestone-2-geometry.json`. La validación de interfaz/demo se cierra en el siguiente commit.

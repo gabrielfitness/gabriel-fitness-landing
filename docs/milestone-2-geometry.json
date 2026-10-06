@@ -1,0 +1,880 @@
+{
+  "date": "2026-10-06",
+  "vertices": 13380,
+  "triangles": 26756,
+  "morphTargets": 8,
+  "exactM1BaseBuffers": true,
+  "gltfValidator": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 0,
+    "numHints": 0,
+    "messages": [],
+    "truncated": false
+  },
+  "sampledCombinations": 121,
+  "baselineContactTrianglePairs": [
+    "13913:13923",
+    "13913:13952",
+    "13923:13924",
+    "13924:13952",
+    "658:668",
+    "658:699",
+    "668:671",
+    "671:699"
+  ],
+  "baselineNote": "Eight internal mouth contact pairs already present in M1; no new non-adjacent triangle intersections in 121 sampled combinations. Not a mathematical proof over all real-valued states.",
+  "minTriangleAreaSquareMeters": 7.476524926707232e-8,
+  "minEdgeLengthRatio": 0.3568840082963335,
+  "maxEdgeLengthRatio": 4.395711885317779,
+  "maxVertexDisplacementPerSliderTickMeters": 0.0018923300337420619,
+  "states": [
+    {
+      "fatSlider": 0,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.04126658465523838,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.036363649899951306,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.031671358174471725,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.027298729812186864,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.02342527759865517,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.02033826198347158,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.019803696285378647,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.020227221023170774,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.0207141116861224,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.026230705394078607,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 0,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.032772944276678595,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.03283473776210615,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.02893571423372181,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.02520940466638599,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.021744842461132046,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.018688070000412196,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.01627061122796569,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.016347143191562736,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.017243686578134236,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.019587635436745614,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.02609345689196783,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 10,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.03260124208585793,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.024766507660524326,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.021526131174035307,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.0187590671277316,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.01619678943144109,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.013952494649978253,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.012202962465279299,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.01291528354477529,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.014273407116229386,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.019485672565323867,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.025960626650815843,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 20,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.032436873591876275,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.022666293363754354,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.017461382329557327,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.012427068606520365,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.010739372354464887,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.009221139880790189,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.008135299518204898,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.009493373959279837,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.012940372395398683,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.019385736186078355,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.02583240506798936,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 30,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.032279595765646055,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.030287964515267912,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.023962510724081995,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.017642602644861217,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.011337597906558214,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.005102391969512796,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.004067662947137481,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.006448285499678556,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.012867654043199646,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.01928820962795742,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.025708975780748478,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 40,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.03212998978469029,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.039993373722210054,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.031994649414262,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.023996011577160355,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.015997362145071428,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.007998649432197575,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.0064100811465513125,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.012820162293102625,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.019230243439653936,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.02564032482796797,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 50,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.03205040597451885,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.05089277160894205,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.04091364034988591,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.030935296660817346,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.020958419751312924,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.01098769949170391,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.004588682246237623,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.0070613362232716595,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.013619617983819391,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.020201020904868514,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.02678862270610567,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 60,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.03337847333462813,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.061793789741395926,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.04983527969533806,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.03787895129737295,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.025927798912631004,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.015249944255728995,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.009177364492475247,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.009549054488112649,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.014838185842690366,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.021654825030556726,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.028490745557645688,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 70,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.035334643518555975,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.07285054450351522,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.05875830678697732,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.04482510321574236,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.030901533426940336,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.019892092473828595,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.013766046738712871,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.013370505127541484,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.016719962812272886,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.02350219928258789,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.030654773999143067,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 80,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.037821676377609505,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.08543757419814518,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.06891978115362822,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.05240789028823654,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.035910294426690435,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.02455241153928356,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.018354728984950493,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.017219763797114176,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.019817494160249936,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.02670941504169792,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.03401478671803656,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 90,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.04159323644979895,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 0,
+      "maxDeltaMeters": 0.09805519244302245,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 10,
+      "maxDeltaMeters": 0.07914623253471209,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 20,
+      "maxDeltaMeters": 0.06024576255265343,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 30,
+      "maxDeltaMeters": 0.04136505695355823,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 40,
+      "maxDeltaMeters": 0.029222231499609848,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 50,
+      "maxDeltaMeters": 0.022943411231188118,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 60,
+      "maxDeltaMeters": 0.02108153201114137,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 70,
+      "maxDeltaMeters": 0.023979898949163695,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 80,
+      "maxDeltaMeters": 0.03243934616249818,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 90,
+      "maxDeltaMeters": 0.04123881846445495,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    },
+    {
+      "fatSlider": 100,
+      "muscleSlider": 100,
+      "maxDeltaMeters": 0.0503402677243365,
+      "selfIntersectionPairs": 8,
+      "newIntersections": 0
+    }
+  ]
+}

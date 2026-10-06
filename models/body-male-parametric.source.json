@@ -1,0 +1,99 @@
+{
+  "upstreamCommit": "a8bc2d54ff0ac92e78ff71431b1023eda42bf482",
+  "baseGlbSha256": "86a11458b855aab4bc29dbce7fbabdc2d63b4315f4a0b656af84ce56a410f233",
+  "sha256": "005b55f374e58b3f8d78c2184a38aeb520699c3f6fdff0bae0a2defe3eb0e327",
+  "bytes": 3056784,
+  "sources": [
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-averagemuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-averagemuscle-averageweight.target",
+      "sha256": "4ba5396ddabda448ece15650a566fbebfbb10239256ccb201e8f883429e12249"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-minmuscle-minweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-minmuscle-minweight.target",
+      "sha256": "3af713db636eb41f32af5010981bad30efe743a3ab1d4a61c619c664b610a51a"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-minmuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-minmuscle-averageweight.target",
+      "sha256": "aa2bd57c3d82cbcbaee3f35e75c7d03952bbb9624003d7ee6f1aa50e04bfa5ba"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-minmuscle-maxweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-minmuscle-maxweight.target",
+      "sha256": "14580444f1480b1c6b396973f8c040cc36e5ca8914addf17d11c5a023a958de2"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-averagemuscle-minweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-averagemuscle-minweight.target",
+      "sha256": "fac0d53b7051f4d1f06230d0b419e916eb5bae5ce67c031a9998fdde05229755"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-averagemuscle-maxweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-averagemuscle-maxweight.target",
+      "sha256": "3e77ff5a07a9b870db5226507e1cf8a295f0e09c109fb72142770f5f50427b5e"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-minweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-minweight.target",
+      "sha256": "5873f11edc96fde72a79ec35fa1d292a6a1a594b5eadfd82d59faf48834561de"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-averageweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-averageweight.target",
+      "sha256": "c171ff9cc95e96273beb3e3b1969a01988c2d4982ebc6fe04bf81cf72ee3b295"
+    },
+    {
+      "path": "makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-maxweight.target",
+      "url": "https://raw.githubusercontent.com/makehumancommunity/makehuman/a8bc2d54ff0ac92e78ff71431b1023eda42bf482/makehuman/data/targets/macrodetails/universal-male-young-maxmuscle-maxweight.target",
+      "sha256": "95392741389537889a37dc67a7d8453c93b30f27131e3e622bee3f30d1d8738c"
+    }
+  ],
+  "vertexCount": 13380,
+  "triangleCount": 26756,
+  "morphs": [
+    {
+      "muscle": 0.0,
+      "fat": 0.0,
+      "name": "muscle_min__weight_min"
+    },
+    {
+      "muscle": 0.0,
+      "fat": 0.5,
+      "name": "muscle_min__weight_average"
+    },
+    {
+      "muscle": 0.0,
+      "fat": 1.0,
+      "name": "muscle_min__weight_max"
+    },
+    {
+      "muscle": 0.5,
+      "fat": 0.0,
+      "name": "muscle_average__weight_min"
+    },
+    {
+      "muscle": 0.5,
+      "fat": 1.0,
+      "name": "muscle_average__weight_max"
+    },
+    {
+      "muscle": 1.0,
+      "fat": 0.0,
+      "name": "muscle_max__weight_min"
+    },
+    {
+      "muscle": 1.0,
+      "fat": 0.5,
+      "name": "muscle_max__weight_average"
+    },
+    {
+      "muscle": 1.0,
+      "fat": 1.0,
+      "name": "muscle_max__weight_max"
+    }
+  ],
+  "baseBuffers": "M1 POSITION, NORMAL, indices copied byte-for-byte; same vertex IDs and topology",
+  "interpolation": "nonnegative bilinear weights on the 3x3 weight/muscle grid; neutral implicit"
+}

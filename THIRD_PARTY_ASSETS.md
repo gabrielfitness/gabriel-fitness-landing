@@ -30,3 +30,15 @@ MakeHuman was selected because one established human topology supports adult mal
 A generic glTF sample character would unblock rotation but its clothing/topology would not establish the intended body-morph workflow. Building anatomy from primitives would discard existing authored assets. Neither is preferable here. No paid asset is required.
 
 Human Atlas / BodyParts3D were reviewed as later internal-anatomy references only; no meshes, code or attribution obligations from them are incorporated in M1. They are not a substitute for a continuous deformable exterior.
+
+## M2 — joint weight/muscle targets (2026-10-06)
+
+Additional CC0 data from the **same pinned MakeHuman commit** as M1. Each source file explicitly states its CC0 release. Authors/rights holders and full license are the same as above; no MakeHuman application source code is included.
+
+All nine combinations of `makehuman/data/targets/macrodetails/universal-male-young-{muscle}muscle-{weight}weight.target` are read, where each of `{muscle}` and `{weight}` is `min`, `average`, or `max`. The average/average target was already used by M1 and remains the implicit neutral. The other eight are embedded as relative POSITION and NORMAL morphs in `models/body-male-parametric.glb`.
+
+Exact source URLs, original SHA-256 hashes, morph names and grid coordinates: `models/body-male-parametric.source.json`. Rebuild with `python3 tools/build-morphs.py --source /path/to/pinned/makehuman`, or omit `--source` to fetch the pinned files.
+
+Modifications: select the exact original vertex IDs retained in M1; convert target offsets from decimeters to meters; subtract the neutral target; calculate target normals and encode relative normal deltas. The base position/normal/index buffers are copied byte-for-byte from M1. Runtime uses nonnegative bilinear weights across the joint 3×3 grid. No remeshing, subdivision, texture, rig, global body scaling, or invented anatomical offsets.
+
+The sliders expose the interior `[0.1, 0.9]` of the source weight/muscle range as visual units 0–100, with neutral 50. This is not a body-fat percentage or clinical body composition measurement. No further third-party artwork was added.
