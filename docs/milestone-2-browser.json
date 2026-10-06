@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-06",
+  "browser": "153.0.8010.0",
+  "readyMs": 235,
+  "geometryStates": [
+    {
+      "fat": 0,
+      "muscle": 0,
+      "changedCoordinates": 13578
+    },
+    {
+      "fat": 0,
+      "muscle": 50,
+      "changedCoordinates": 9521
+    },
+    {
+      "fat": 0,
+      "muscle": 100,
+      "changedCoordinates": 12130
+    },
+    {
+      "fat": 50,
+      "muscle": 0,
+      "changedCoordinates": 9737
+    },
+    {
+      "fat": 50,
+      "muscle": 50,
+      "changedCoordinates": 0
+    },
+    {
+      "fat": 50,
+      "muscle": 100,
+      "changedCoordinates": 11207
+    },
+    {
+      "fat": 100,
+      "muscle": 0,
+      "changedCoordinates": 20774
+    },
+    {
+      "fat": 100,
+      "muscle": 50,
+      "changedCoordinates": 10149
+    },
+    {
+      "fat": 100,
+      "muscle": 100,
+      "changedCoordinates": 13310
+    }
+  ],
+  "inputAndRenderSubmissionMs": {
+    "median": 0.29999999998835847,
+    "p95": 0.40000000002328306,
+    "max": 0.5
+  },
+  "measurement": "Local headless Chromium with software WebGL; JS handler + render submission, not physical mobile GPU frame time",
+  "assertions": "geometry, 8 morphs, 9 slider states, 3 presets and intermediate animation, interruption, exact neutral reset, no scaling, no idle rendering, views, rotation, zoom, keyboard, mobile tap/drag/pinch, reduced motion, responsive, error recovery, original files unchanged",
+  "pageErrors": [],
+  "httpFailures": [],
+  "externalViewerRequests": []
+}

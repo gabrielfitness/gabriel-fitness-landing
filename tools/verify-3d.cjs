@@ -2,6 +2,7 @@
 // NODE_PATH=/tmp/gfit-qa/node_modules node tools/verify-3d.cjs
 // Optional: CHROMIUM_EXECUTABLE=/path/to/chromium (uses software WebGL in CI).
 const { chromium } = require('playwright');
+const { execFileSync } = require('node:child_process');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -19,6 +20,7 @@ const server = http.createServer((req, res) => {
 (async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const base = `http://127.0.0.1:${server.address().port}`;
+  execFileSync('git',['diff','--exit-code','7059c66','--','index.html','styles.css','script.js','calculadora.html','img','models/body-male.glb','models/body-male.source.json'],{cwd:root});
   let browser;
   try {
     browser = await chromium.launch({headless:true,
@@ -30,11 +32,64 @@ const server = http.createServer((req, res) => {
     page.on('response', r => { if (r.status() >= 400) failures.push(r.url()); });
     page.on('request', r => { if (!r.url().startsWith(base)) external.push(r.url()); });
     const started = Date.now();
-    await page.goto(base+'/modelo-3d.html');
+    let readyMs;
+    await page.goto(base+'/modelo-3d.html?qa');
     await page.waitForSelector('[data-state="ready"]');
-    console.log('Desktop ready in', Date.now()-started, 'ms (local software WebGL; not mobile hardware benchmark)');
+    readyMs = Date.now()-started;
+    console.log('Desktop ready in', readyMs, 'ms (local software WebGL; not mobile hardware benchmark)');
     const canvas = page.locator('canvas');
     const shot = () => canvas.screenshot();
+    const snapshot = p => p.evaluate(() => window.__GFIT_QA__.snapshot());
+    const settle = p => p.waitForSelector('[data-animating="false"]');
+    const neutral = await snapshot(page);
+    assert.equal(neutral.morphCount,8); assert.equal(neutral.triangles,26756);
+    assert.equal(neutral.positions.length,13380*3);
+    assert(neutral.influences.every(w=>w===0));
+    const geometryStates=[];
+    for(const fat of [0,50,100])for(const muscle of [0,50,100]){
+      await page.locator('#fat').fill(String(fat)); await page.locator('#muscle').fill(String(muscle));
+      const state=await snapshot(page);
+      assert(Math.abs(state.state.fat-(0.1+fat*0.008))<1e-8);
+      assert(Math.abs(state.state.muscle-(0.1+muscle*0.008))<1e-8);
+      assert.deepEqual(state.scale,[1,1,1]);
+      const changed=state.positions.reduce((n,v,i)=>n+(Math.abs(v-neutral.positions[i])>1e-5),0);
+      assert((fat===50&&muscle===50)?changed===0:changed>1000,'Real vertex deformation');
+      geometryStates.push({fat,muscle,changedCoordinates:changed});
+    }
+    for(const [id,fat,muscle] of [['delgado',0.18,0.32],['atletico',0.28,0.82],['robusto',0.82,0.52]]){
+      await page.locator(`[data-preset=${id}]`).click();
+      await page.waitForSelector('[data-animating="true"]');
+      await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+      const intermediate=await snapshot(page);
+      assert(Math.abs(intermediate.state.fat-fat)>1e-5||Math.abs(intermediate.state.muscle-muscle)>1e-5,'Preset has an intermediate frame');
+      await settle(page); const state=await snapshot(page);
+      assert.deepEqual(state.state,{fat,muscle});
+      assert.equal(await page.locator(`[data-preset=${id}]`).getAttribute('aria-pressed'),'true');
+    }
+    const beforeIndependent = await snapshot(page);
+    await page.locator('#fat').fill('60');
+    assert.equal((await snapshot(page)).state.muscle,beforeIndependent.state.muscle,'Fat slider preserves muscle exactly');
+    await page.locator('[data-preset=delgado]').click();
+    await page.locator('#fat').fill('70'); // cancels an in-flight preset
+    await settle(page);const interrupted=await snapshot(page);
+    assert(Math.abs(interrupted.state.fat-0.66)<1e-8);
+    assert.equal(await page.locator('[data-preset=delgado]').getAttribute('aria-pressed'),'false');
+    await page.locator('#reset-body').click();await settle(page);
+    assert.deepEqual((await snapshot(page)).positions,neutral.positions,'Body reset is exact');
+    const idleFrame=(await snapshot(page)).frame;
+    await page.waitForTimeout(120);
+    assert.equal((await snapshot(page)).frame,idleFrame,'No idle render loop');
+    const timings=await page.evaluate(async()=>{
+      const input=document.querySelector('#fat'),samples=[];
+      for(let i=0;i<60;i++){
+        await new Promise(resolve=>requestAnimationFrame(resolve));
+        input.value=String((i*7)%101);const start=performance.now();
+        input.dispatchEvent(new Event('input',{bubbles:true}));samples.push(performance.now()-start);
+      }
+      return samples.sort((a,b)=>a-b);
+    });
+    await page.locator('#reset-body').click();await settle(page);
+    await page.locator('#reset').click();
     const front = await shot();
     await page.getByRole('button',{name:'Perfil',exact:true}).click();
     assert(!front.equals(await shot()), 'Side view changes rendered pixels');
@@ -62,14 +117,31 @@ const server = http.createServer((req, res) => {
     await canvas.focus(); await page.keyboard.press('ArrowRight');
     assert(!front.equals(await shot()), 'Keyboard rotates');
     await page.locator('#reset').click();
-    await page.screenshot({path:path.join(root,'docs/milestone-1-desktop.png'),fullPage:true});
+    await page.screenshot({path:path.join(root,'docs/milestone-2-desktop.png'),fullPage:true});
     assert.deepEqual(errors,[]); assert.deepEqual(failures,[]); assert.deepEqual(external,[]);
 
     const mobile = await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3});
-    await mobile.goto(base+'/modelo-3d.html');
+    await mobile.goto(base+'/modelo-3d.html?qa');
     await mobile.waitForSelector('[data-state="ready"]');
     assert(await mobile.evaluate(()=>document.documentElement.scrollWidth===innerWidth),'No mobile overflow');
     assert(await mobile.locator('canvas').evaluate(c=>c.width/c.clientWidth<=1.51),'Pixel ratio capped');
+    const mobileErrors=[];mobile.on('pageerror',e=>mobileErrors.push(e.message));
+    const mobileBefore=await snapshot(mobile);
+    await mobile.locator('[data-preset=atletico]').click();await settle(mobile);
+    assert.notDeepEqual((await snapshot(mobile)).positions,mobileBefore.positions);
+    await mobile.locator('#fat').fill('100');
+    assert(Math.abs((await snapshot(mobile)).state.fat-0.9)<1e-8);
+    // Scroll the sliders below the sticky body instead of hiding them behind it.
+    await mobile.evaluate(()=>{
+      const panel=document.querySelector('.viewer-panel');
+      const input=document.querySelector('#fat');
+      scrollTo(0,scrollY+input.getBoundingClientRect().top-panel.getBoundingClientRect().height-70);
+    });
+    const sliderBounds=await mobile.locator('#fat').boundingBox();
+    await mobile.touchscreen.tap(sliderBounds.x+sliderBounds.width*0.3,sliderBounds.y+sliderBounds.height/2);
+    assert((await snapshot(mobile)).state.fat<0.6,'Real mobile tap changes slider');
+    await mobile.locator('#reset-body').click();await settle(mobile);
+    await mobile.evaluate(()=>scrollTo(0,0));
     const mb = await mobile.locator('canvas').boundingBox();
     const cdp=await mobile.context().newCDPSession(mobile);
     const touch = (type,points)=>cdp.send('Input.dispatchTouchEvent',{type,touchPoints:points});
@@ -85,19 +157,24 @@ const server = http.createServer((req, res) => {
     await touch('touchEnd',[]);
     assert(!beforePinch.equals(await mobile.locator('canvas').screenshot()),'Pinch changes zoom');
     await mobile.locator('#reset').click();
-    await mobile.screenshot({path:path.join(root,'docs/milestone-1-mobile.png'),fullPage:true});
+    await mobile.locator('[data-preset=atletico]').click();await settle(mobile);
+    await mobile.evaluate(()=>{
+      const top=document.querySelector('#fat').getBoundingClientRect().top+scrollY;
+      scrollTo(0,top-document.querySelector('.viewer-panel').getBoundingClientRect().height-65);
+    });
+    await mobile.screenshot({path:path.join(root,'docs/milestone-2-mobile.png')});
     for(const width of [320,768]) {
       await mobile.setViewportSize({width,height:844});
       assert(await mobile.evaluate(()=>document.documentElement.scrollWidth===innerWidth),'Responsive overflow '+width);
     }
 
     const broken = await browser.newPage();
-    await broken.route('**/body-male.glb',route=>route.fulfill({status:404,body:'missing'}));
+    await broken.route('**/body-male-parametric.glb',route=>route.fulfill({status:404,body:'missing'}));
     await broken.goto(base+'/modelo-3d.html');
     await broken.waitForSelector('[data-state="error"]');
     assert(await broken.locator('#retry').isVisible());
     assert(await broken.locator('#zoom-in').isDisabled());
-    await broken.unroute('**/body-male.glb');
+    await broken.unroute('**/body-male-parametric.glb');
     await broken.locator('#retry').click();
     await broken.waitForSelector('[data-state="ready"]');
     await broken.locator('canvas').evaluate(c=>c.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());
@@ -121,6 +198,18 @@ const server = http.createServer((req, res) => {
     await landing.locator('#c-peso').fill('70');
     await landing.locator('#calcForm button[type="submit"]').click();
     assert((await landing.locator('#resCalorias').innerText()).includes('kcal'));
-    console.log('PASS: render, 360°, views, reset, bounded zoom, mouse, keyboard, mobile touch/pinch, resize, load failure/retry, context loss, no-WebGL fallback, landing menu, calculator.');
+    assert.deepEqual(errors,[]);assert.deepEqual(failures,[]);assert.deepEqual(mobileErrors,[]);
+    const reduced=await browser.newPage({reducedMotion:'reduce'});
+    await reduced.goto(base+'/modelo-3d.html?qa');await reduced.waitForSelector('[data-state=ready]');
+    await reduced.locator('[data-preset=atletico]').click();await settle(reduced);
+    assert.deepEqual((await snapshot(reduced)).state,{fat:0.28,muscle:0.82});
+    fs.writeFileSync(path.join(root,'docs/milestone-2-browser.json'),JSON.stringify({
+      date:'2026-10-06',browser:await browser.version(),readyMs,geometryStates,
+      inputAndRenderSubmissionMs:{median:timings[30],p95:timings[57],max:timings[59]},
+      measurement:'Local headless Chromium with software WebGL; JS handler + render submission, not physical mobile GPU frame time',
+      assertions:'geometry, 8 morphs, 9 slider states, 3 presets and intermediate animation, interruption, exact neutral reset, no scaling, no idle rendering, views, rotation, zoom, keyboard, mobile tap/drag/pinch, reduced motion, responsive, error recovery, original files unchanged',
+      pageErrors:errors,httpFailures:failures,externalViewerRequests:external
+    },null,2)+'\n');
+    console.log('PASS: morphs, slider geometry, presets, continuous animation, exact body reset, render, 360°, views, reset, bounded zoom, mouse, keyboard, mobile touch/pinch, resize, load failure/retry, context loss, no-WebGL fallback, landing menu, calculator.');
   } finally { if(browser) await browser.close(); server.close(); }
 })().catch(e=>{console.error(e);process.exitCode=1;server.close();});

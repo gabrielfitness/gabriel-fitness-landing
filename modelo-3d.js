@@ -1,9 +1,11 @@
-// Isolated M1 viewer. No imports or writes to the landing's scripts or styles.
+import { createBodyMorphs, NEUTRAL, PRESETS, sliderToParameter, parameterToSlider } from './modelo-3d-morphs.js';
+// Isolated M2/M3 viewer. No imports or writes to the landing's scripts or styles.
 const viewport = document.querySelector('#viewport');
 const canvas = document.querySelector('#body-canvas');
 const status = document.querySelector('#status');
 const loading = document.querySelector('#loading');
 const controlsField = document.querySelector('#viewer-controls');
+const bodyField = document.querySelector('#body-controls');
 const retry = document.querySelector('#retry');
 retry.addEventListener('click', () => location.reload());
 
@@ -13,6 +15,7 @@ function fail(message, error) {
   viewport.setAttribute('aria-busy', 'false');
   loading.hidden = true;
   controlsField.disabled = true;
+  bodyField.disabled = true;
   status.textContent = message;
   retry.hidden = false;
 }
@@ -53,6 +56,7 @@ async function start() {
   rim.position.set(3, 3, -3);
   scene.add(rim);
   let contextLost = false;
+  let cancelBodyAnimation = () => {};
   function render() {
     if (!contextLost && !document.hidden) renderer.render(scene, camera);
   }
@@ -92,6 +96,7 @@ async function start() {
   canvas.addEventListener('webglcontextlost', event => {
     event.preventDefault();
     contextLost = true;
+    cancelBodyAnimation();
     controls.enabled = false;
     fail('La vista 3D se ha interrumpido. Pulsa «Volver a intentar» para recuperarla.', 'WebGL context lost');
   });
@@ -102,7 +107,7 @@ async function start() {
   const timeout = setTimeout(() => controller.abort(), 20000);
   let gltf;
   try {
-    const response = await fetch(new URL('./models/body-male.glb', import.meta.url), { signal: controller.signal });
+    const response = await fetch(new URL('./models/body-male-parametric.glb', import.meta.url), { signal: controller.signal });
     if (!response.ok) throw new Error(`Model HTTP ${response.status}`);
     const data = await response.arrayBuffer();
     gltf = await new GLTFLoader().parseAsync(data, '');
@@ -111,7 +116,13 @@ async function start() {
   }
   if (contextLost) return;
   const body = gltf.scene;
-  const box = new THREE.Box3().setFromObject(body);
+  let mesh;
+  body.traverse(object => { if (object.isMesh) mesh = object; });
+  if (!mesh) throw new Error('Missing body mesh');
+  const morphs = createBodyMorphs(mesh);
+  // Frame the neutral body, not Three.js' deliberately overconservative sum
+  // of all morph bounds. Camera remains fixed while the body changes shape.
+  const box = new THREE.Box3().setFromBufferAttribute(mesh.geometry.attributes.position);
   bodySize = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
   body.position.set(-center.x, -box.min.y, -center.z);
@@ -126,10 +137,93 @@ async function start() {
   setView(0, true);
   controls.enabled = true;
   controlsField.disabled = false;
+  bodyField.disabled = false;
   loading.hidden = true;
   viewport.setAttribute('aria-busy', 'false');
   viewport.dataset.state = 'ready';
-  status.textContent = 'Modelo de prueba · Listo para explorar';
+  status.textContent = 'Cuerpo neutral · Listo para personalizar';
+
+  const fatInput = document.querySelector('#fat');
+  const muscleInput = document.querySelector('#muscle');
+  const bodyLabel = document.querySelector('#body-label');
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  let animation = 0;
+  cancelBodyAnimation = () => {
+    cancelAnimationFrame(animation);
+    animation = 0;
+    viewport.dataset.animating = 'false';
+  };
+  function showState() {
+    const state = morphs.state;
+    fatInput.value = parameterToSlider(state.fat);
+    muscleInput.value = parameterToSlider(state.muscle);
+    for (const input of [fatInput, muscleInput]) {
+      const value = Number(input.value);
+      input.setAttribute('aria-valuetext', value < 34 ? 'Menos' : value > 66 ? 'Más' : 'Intermedio');
+      input.style.setProperty('--fill', value + '%');
+    }
+  }
+  function selectPreset(id) {
+    document.querySelectorAll('[data-preset]').forEach(button =>
+      button.setAttribute('aria-pressed', String(button.dataset.preset === id)));
+    bodyLabel.textContent = { delgado: 'Delgado', atletico: 'Atlético', robusto: 'Robusto',
+      neutral: 'Neutral', custom: 'Personalizado' }[id];
+  }
+  function transitionTo(target, id) {
+    cancelBodyAnimation();
+    selectPreset(id);
+    const from = morphs.state;
+    const start = performance.now();
+    const duration = reducedMotion.matches ? 0 : 420;
+    viewport.dataset.animating = 'true';
+    function frame(now) {
+      if (contextLost) return cancelBodyAnimation();
+      const progress = duration ? Math.min(1, (now - start) / duration) : 1;
+      const ease = progress * progress * (3 - 2 * progress);
+      morphs.apply(from.fat + (target.fat - from.fat) * ease,
+        from.muscle + (target.muscle - from.muscle) * ease);
+      showState();
+      render();
+      if (progress < 1) animation = requestAnimationFrame(frame);
+      else {
+        morphs.apply(target.fat, target.muscle); // exact, drift-free destination
+        showState(); render(); cancelBodyAnimation();
+        status.textContent = bodyLabel.textContent + ' · Puedes seguir ajustándolo';
+      }
+    }
+    animation = requestAnimationFrame(frame);
+  }
+  function manualInput(event) {
+    cancelBodyAnimation();
+    const current = morphs.state;
+    morphs.apply(event.target === fatInput ? sliderToParameter(fatInput.value) : current.fat,
+      event.target === muscleInput ? sliderToParameter(muscleInput.value) : current.muscle);
+    selectPreset('custom'); showState(); render();
+    status.textContent = 'Personalizado · Cambios en tiempo real';
+  }
+  fatInput.addEventListener('input', manualInput);
+  muscleInput.addEventListener('input', manualInput);
+  document.querySelectorAll('[data-preset]').forEach(button => button.addEventListener('click', () =>
+    transitionTo(PRESETS[button.dataset.preset], button.dataset.preset)));
+  document.querySelector('#reset-body').addEventListener('click', () => transitionTo(NEUTRAL, 'neutral'));
+  morphs.apply(NEUTRAL.fat, NEUTRAL.muscle); showState();
+  viewport.dataset.animating = 'false';
+
+  // Read-only, opt-in diagnostics for geometry tests; no client data collected.
+  if (new URLSearchParams(location.search).has('qa')) {
+    window.__GFIT_QA__ = Object.freeze({ snapshot: () => {
+      const vertex = new THREE.Vector3();
+      const positions = new Float32Array(mesh.geometry.attributes.position.count * 3);
+      for (let i = 0; i < positions.length / 3; i++) {
+        mesh.getVertexPosition(i, vertex); vertex.toArray(positions, i * 3);
+      }
+      return { state: morphs.state, positions: Array.from(positions),
+        influences: [...mesh.morphTargetInfluences], scale: mesh.scale.toArray(),
+        morphCount: mesh.geometry.morphAttributes.position.length,
+        triangles: mesh.geometry.index.count / 3,
+        frame: renderer.info.render.frame, camera: camera.position.toArray() };
+    }});
+  }
 
   const spherical = new THREE.Spherical();
   function rotate(horizontal, vertical = 0) {

@@ -101,3 +101,13 @@ Work/Astra debe:
 - Interpolación bilineal no negativa en `modelo-3d-morphs.js`; slider 0–100 representa parámetro visual MakeHuman 0.1–0.9; neutral 50 equivale exactamente a M1.
 - 121 combinaciones: sin nuevas intersecciones ni triángulos colapsados; 8 contactos internos de boca preexistentes en M1 registrados como limitación. Revisión frontal/lateral/posterior de extremos sin roturas corporales visibles. Khronos: 0 errores/0 advertencias.
 - Documentación inicial y reporte en `docs/MILESTONE_2.md`, `docs/milestone-2-geometry.json`. La validación de interfaz/demo se cierra en el siguiente commit.
+
+## M2 + M3 básica — entrega terminada (2026-10-06)
+- Reanudada la ejecución tras el límite de uso: se conservó el commit local del motor; no se repitió la generación ni la validación geométrica ya terminada.
+- Sliders operativos, presets Delgado/Atlético/Robusto con transición de 420 ms y edición posterior; reset exacto del cuerpo neutral. Cámara independiente, responsive con cuerpo visible mientras se ajusta en móvil. Rango y valores documentados en `docs/MILESTONE_2.md`.
+- `tools/verify-3d.cjs` ampliado: morphs, geometría real, extremos/neutral, presets y fotogramas intermedios, cancelación, independencia de sliders, reset, controles, gestos táctiles, reducido movimiento, fallos y regresión. Ejecución final satisfactoria; reporte en `docs/milestone-2-browser.json`.
+- Se mantienen los resultados geométricos del commit anterior (121 estados, sin nuevos cruces ni colapsos, Khronos sin errores/advertencias). Limitaciones: contactos internos de boca heredados de M1; dispositivos iOS/Android físicos pendientes.
+- Capturas de los tres presets, grasa alta, músculo alto y móvil guardadas en `docs/`.
+- `tools/export-demo.cjs` produce una copia HTML autocontenida para abrir con doble clic. Demo probada desde file:// con red desactivada. No modifica hosting ni necesita servidor; instrucciones de servidor local para móvil también en M2.
+- No se encontró una URL de preview segura verificable; no se cambió ninguna configuración de producción. Rama exclusiva `gfit-3d-body-v1`; main, landing y calculadora intactos.
+- **Esperar revisión de Gabriel. No continuar automáticamente a Milestone 4.**

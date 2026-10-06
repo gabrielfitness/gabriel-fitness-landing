@@ -5,3 +5,47 @@
 @media(max-width:800px){.header{padding:20px 5%}.brand{font-size:18px}.brand span{display:none}.back-link{font-size:10px}.intro{padding:28px 0 24px;align-items:flex-start}.intro-copy{max-width:155px;font-size:11px;padding-top:22px}h1{font-size:40px;letter-spacing:-2px}.eyebrow{font-size:8px;letter-spacing:1.3px}.workspace{grid-template-columns:1fr}.viewport{height:460px;height:clamp(340px,54svh,480px)}.viewer-heading{padding:18px 18px 0}.controls-panel{border-left:0;border-top:1px solid var(--line);padding:24px}.controls-panel h2{font-size:25px;margin-top:17px}.controls-panel h2 br{display:none}.controls-panel>p{margin-bottom:18px}.prototype-note{margin-top:20px}.page-footer{align-items:flex-start}.page-footer span{text-align:right;max-width:90px}}
 @media(max-width:370px){.intro{display:block}.intro-copy{padding-top:15px;max-width:none}.intro-copy br{display:none}h1{font-size:37px}.viewport{height:355px}}
 @media(prefers-reduced-motion:reduce){button{transition:none}}
+/* M2/M3: body controls stay near the viewer; touch targets remain >=44px. */
+.workspace{grid-template-columns:minmax(0,1fr) 355px;overflow:clip;align-items:start}
+.viewer-panel{position:sticky;top:12px;height:min(780px,calc(100svh - 24px));min-height:520px}
+.viewport{height:auto;flex:1;min-height:0}
+.viewer-heading strong{font-weight:600}
+.controls-panel{padding:25px 24px}
+.controls-panel h2{font-size:26px;margin-top:20px}
+.controls-panel>p{margin-bottom:20px}
+.preset-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.preset-buttons button{padding:12px 2px;display:flex;flex-direction:column;align-items:center;gap:5px}
+.preset-buttons strong{font-size:11px;font-weight:650}
+.preset-buttons small{font-size:8px;color:var(--muted)}
+.preset-buttons [aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}
+.preset-buttons [aria-pressed=true] small{color:#ddd}
+.preset-buttons [aria-pressed=true]:hover{background:#333}
+.field-help{font-size:10px;color:var(--muted);line-height:1.65;margin:10px 0 17px}
+.slider-group{margin:19px 0 8px}
+.slider-group label{display:block;font-size:12px;font-weight:650}
+.slider-group input{--fill:50%;display:block;width:100%;height:44px;margin:0;appearance:none;background:transparent;cursor:pointer;touch-action:pan-y}
+.slider-group input:focus-visible{outline:2px solid #526b8b;outline-offset:2px;border-radius:5px}
+.slider-group input::-webkit-slider-runnable-track{height:3px;border-radius:4px;background:linear-gradient(to right,#111 var(--fill),#ddd var(--fill))}
+.slider-group input::-webkit-slider-thumb{appearance:none;width:19px;height:19px;border-radius:50%;background:#111;border:3px solid white;box-shadow:0 0 0 1px #111;margin-top:-8px}
+.slider-group input::-moz-range-track{height:3px;background:#ddd}
+.slider-group input::-moz-range-progress{height:3px;background:#111}
+.slider-group input::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:#111;border:3px solid white;box-shadow:0 0 0 1px #111}
+.range-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:-7px}
+#body-controls .primary{margin:14px 0 25px}
+#viewer-controls{border-top:1px solid var(--line);padding-top:18px}
+#viewer-controls legend{float:none;width:auto;margin-bottom:12px;padding:0 6px 0 0}
+#viewer-controls .primary{background:white;color:#111;margin-top:15px}
+#viewer-controls .control-label{margin-top:12px}
+.prototype-note{margin-top:20px;padding-top:16px}
+@media(max-width:800px){
+ .intro{padding:22px 0}.intro h1{font-size:35px}.intro-copy{font-size:10px;max-width:135px}
+ .workspace{display:block;overflow:clip}
+ .viewer-panel{top:0;z-index:2;height:44svh;min-height:300px;max-height:430px;border-bottom:1px solid var(--line)}
+ .viewport{height:auto;min-height:0}
+ .viewer-heading{padding:12px 15px 0}.viewer-footer{padding:0 10px 10px}
+ .viewer-footer p{font-size:9px}.viewer-footer #status{font-size:9px}
+ .controls-panel{border-top:0;padding:20px}
+ .controls-panel h2{font-size:23px;margin:16px 0 10px}
+ .controls-panel>p{font-size:12px;margin-bottom:16px}
+ .preset-buttons small{font-size:8px}
+}

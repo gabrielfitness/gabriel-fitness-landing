@@ -21,11 +21,11 @@
   <main>
     <section class="intro" aria-labelledby="title">
       <div><p class="eyebrow">TU PROGRESO, OTRA PERSPECTIVA</p><h1 id="title">Body Progress<span>Model.</span></h1></div>
-      <p class="intro-copy">Explora tu punto de partida.<br>Gira el cuerpo y descubre cada ángulo.</p>
+      <p class="intro-copy">Elige un punto de partida.<br>Hazlo tuyo, ajuste a ajuste.</p>
     </section>
     <div class="workspace">
       <section class="viewer-panel" aria-label="Explorador corporal 3D">
-        <div class="viewer-heading"><span class="pill">VISTA 3D</span><span>01 / EXPLORAR</span></div>
+        <div class="viewer-heading"><span class="pill">VISTA 3D</span><span>CUERPO / <strong id="body-label">Neutral</strong></span></div>
         <div id="viewport" class="viewport" aria-busy="true">
           <canvas id="body-canvas" tabindex="0" aria-label="Cuerpo humano 3D. Usa las flechas para girar y las teclas más y menos para acercar o alejar." aria-describedby="gesture-help"></canvas>
           <div id="loading" class="loading"><span class="loading-mark" aria-hidden="true">GFIT</span><p>Preparando tu vista 3D…</p></div>
@@ -37,9 +37,30 @@
         </div>
       </section>
       <aside class="controls-panel" aria-labelledby="explore-title">
-        <span class="pill">PROTOTIPO · MILESTONE 1</span>
-        <h2 id="explore-title">Míralo desde<br>todos los ángulos.</h2>
-        <p>Un primer paso para visualizar tu evolución. Empieza explorando el cuerpo en 360°.</p>
+        <span class="pill">VERSIÓN DE PRUEBA</span>
+        <h2 id="explore-title">Tu cuerpo.<br>Tu punto de partida.</h2>
+        <p>Elige una base y ajusta su apariencia. Sin medidas ni fotografías.</p>
+        <fieldset id="body-controls" disabled>
+          <legend>Empieza por una base</legend>
+          <div class="preset-buttons">
+            <button type="button" data-preset="delgado" aria-pressed="false"><strong>Delgado</strong><small>Perfil ectomorfo</small></button>
+            <button type="button" data-preset="atletico" aria-pressed="false"><strong>Atlético</strong><small>Perfil mesomorfo</small></button>
+            <button type="button" data-preset="robusto" aria-pressed="false"><strong>Robusto</strong><small>Perfil endomorfo</small></button>
+          </div>
+          <p class="field-help">Puntos de partida visuales, no categorías biológicas rígidas.</p>
+          <div class="slider-group">
+            <label for="fat">Grasa corporal</label>
+            <input id="fat" type="range" min="0" max="100" step="1" value="50" aria-describedby="fat-help">
+            <div class="range-labels" aria-hidden="true"><span>Menos</span><span>Más</span></div>
+          </div>
+          <div class="slider-group">
+            <label for="muscle">Musculatura</label>
+            <input id="muscle" type="range" min="0" max="100" step="1" value="50">
+            <div class="range-labels" aria-hidden="true"><span>Menos</span><span>Más</span></div>
+          </div>
+          <p class="field-help" id="fat-help">La grasa es una aproximación visual. No indica un porcentaje corporal.</p>
+          <button type="button" id="reset-body" class="primary">Restablecer cuerpo <span aria-hidden="true">↺</span></button>
+        </fieldset>
         <fieldset id="viewer-controls" disabled>
           <legend>Tu perspectiva</legend>
           <div class="view-buttons" aria-label="Vistas rápidas">
@@ -59,7 +80,7 @@
           </div>
           <button type="button" id="reset" class="primary">Restablecer vista <span aria-hidden="true">↺</span></button>
         </fieldset>
-        <div class="prototype-note"><span class="note-number">01</span><div><strong>Primero, explorar.</strong><p>Modelo masculino de prueba. La personalización corporal llegará en la siguiente etapa.</p></div></div>
+        <div class="prototype-note"><span class="note-number">GF</span><div><strong>Tu progreso es personal.</strong><p>Modelo masculino orientativo. Explora su forma y ajusta ambas variables libremente.</p></div></div>
       </aside>
     </div>
     <footer class="page-footer"><p>Una visualización orientativa. Tu progreso es personal.</p><span>GABRIEL FITNESS / BODY LAB</span></footer>
