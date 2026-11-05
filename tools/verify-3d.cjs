@@ -2,6 +2,7 @@
 // NODE_PATH=/tmp/gfit-qa/node_modules node tools/verify-3d.cjs
 // Optional: CHROMIUM_EXECUTABLE=/path/to/chromium (uses software WebGL in CI).
 const { chromium } = require('playwright');
+const { PNG } = require('pngjs');
 const { execFileSync } = require('node:child_process');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -42,7 +43,7 @@ const server = http.createServer((req, res) => {
     const snapshot = p => p.evaluate(() => window.__GFIT_QA__.snapshot());
     const settle = p => p.waitForSelector('[data-animating="false"]');
     const neutral = await snapshot(page);
-    assert.equal(neutral.morphCount,8); assert.equal(neutral.triangles,26756);
+    assert.equal(neutral.morphCount,10); assert.equal(neutral.triangles,26756);
     assert.equal(neutral.positions.length,13380*3);
     assert(neutral.influences.every(w=>w===0));
     const geometryStates=[];
@@ -63,9 +64,53 @@ const server = http.createServer((req, res) => {
       const intermediate=await snapshot(page);
       assert(Math.abs(intermediate.state.fat-fat)>1e-5||Math.abs(intermediate.state.muscle-muscle)>1e-5,'Preset has an intermediate frame');
       await settle(page); const state=await snapshot(page);
-      assert.deepEqual(state.state,{fat,muscle});
+      assert.deepEqual(state.state,{fat,muscle,shoulders:0.5});
       assert.equal(await page.locator(`[data-preset=${id}]`).getAttribute('aria-pressed'),'true');
     }
+    // M4: exact locality on nine body states, with all three shoulder settings.
+    const shoulderManifest=JSON.parse(fs.readFileSync(path.join(root,'models/body-male-shoulders.source.json')));
+    const allowed=new Set(shoulderManifest.targets.flatMap(t=>t.affectedVertexIds));
+    const shoulderStates=[];
+    for(const fat of [0,50,100])for(const muscle of [0,50,100]){
+      await page.locator('#fat').fill(String(fat));await page.locator('#muscle').fill(String(muscle));
+      await page.locator('#shoulders').fill('50');const baseState=await snapshot(page);
+      for(const shoulders of [0,50,100]){
+        await page.locator('#shoulders').fill(String(shoulders));const shaped=await snapshot(page);
+        assert.equal(shaped.state.fat,baseState.state.fat);assert.equal(shaped.state.muscle,baseState.state.muscle);
+        assert.deepEqual(shaped.influences.slice(0,8),baseState.influences.slice(0,8));
+        let changed=0;
+        for(let i=0;i<shaped.positions.length;i++){
+          if(!allowed.has(Math.floor(i/3)))assert.equal(shaped.positions[i],baseState.positions[i],'No unrelated vertex moves');
+          if(shaped.positions[i]!==baseState.positions[i])changed++;
+        }
+        assert(shoulders===50?changed===0:changed>100,'Real shoulder deformation');
+        shoulderStates.push({fat,muscle,shoulders,changedCoordinates:changed});
+      }
+    }
+    // Every preset preserves independent shoulders, even during its transition.
+    for(const shoulders of [0,50,100]){
+      await page.locator('#shoulders').fill(String(shoulders));
+      for(const id of ['delgado','atletico','robusto']){
+        await page.locator(`[data-preset=${id}]`).click();
+        assert.equal((await snapshot(page)).state.shoulders,shoulders/100);
+        await settle(page);assert.equal((await snapshot(page)).state.shoulders,shoulders/100);
+      }
+    }
+    const beforeShoulders=await snapshot(page);
+    await page.locator('#shoulders').fill('50');await page.locator('#shoulders').focus();await page.keyboard.press('ArrowRight');
+    assert.equal((await snapshot(page)).state.shoulders,0.51,'Shoulder keyboard');
+    assert.equal((await snapshot(page)).state.fat,beforeShoulders.state.fat);
+    const sb=await page.locator('#shoulders').boundingBox();
+    await page.mouse.click(sb.x+sb.width*.8,sb.y+sb.height/2);
+    assert((await snapshot(page)).state.shoulders>.6,'Shoulder mouse');
+    const keepShoulders=(await snapshot(page)).state.shoulders;
+    await page.locator('#muscle').fill('60');await page.locator('#fat').fill('40');
+    assert.equal((await snapshot(page)).state.shoulders,keepShoulders,'Global axes preserve shoulders');
+    await page.locator('[data-preset=delgado]').click();await page.locator('#shoulders').fill('30');
+    await settle(page);assert.equal((await snapshot(page)).state.shoulders,.3,'Shoulder cancels preset');
+    await page.locator('#reset-body').click();await settle(page);
+    assert.deepEqual((await snapshot(page)).state,{fat:.5,muscle:.5,shoulders:.5});
+    assert.deepEqual((await snapshot(page)).positions,neutral.positions);
     const beforeIndependent = await snapshot(page);
     await page.locator('#fat').fill('60');
     assert.equal((await snapshot(page)).state.muscle,beforeIndependent.state.muscle,'Fat slider preserves muscle exactly');
@@ -91,6 +136,7 @@ const server = http.createServer((req, res) => {
     await page.locator('#reset-body').click();await settle(page);
     await page.locator('#reset').click();
     const front = await shot();
+    const frontCamera=(await snapshot(page)).camera;
     await page.getByRole('button',{name:'Perfil',exact:true}).click();
     assert(!front.equals(await shot()), 'Side view changes rendered pixels');
     await page.getByRole('button',{name:'Espalda',exact:true}).click();
@@ -99,7 +145,13 @@ const server = http.createServer((req, res) => {
     await page.locator('#reset').click();
     assert(front.equals(await shot()), 'Reset returns original framing');
     for(let i=0;i<16;i++) await page.locator('#rotate-right').click();
-    assert(front.equals(await shot()), 'Sixteen 22.5-degree steps return a full 360-degree rotation');
+    const fullTurn=await shot(),turnCamera=(await snapshot(page)).camera;
+    assert(turnCamera.every((v,i)=>Math.abs(v-frontCamera[i])<1e-10),'360-degree camera return');
+    // Tiny floating-point camera roundoff can change edge antialiasing by a pixel.
+    const imageA=PNG.sync.read(front),imageB=PNG.sync.read(fullTurn);
+    assert.equal(imageA.width,imageB.width);assert.equal(imageA.height,imageB.height);
+    let changedPixels=0;for(let i=0;i<imageA.data.length;i+=4)if([0,1,2].some(c=>Math.abs(imageA.data[i+c]-imageB.data[i+c])>8))changedPixels++;
+    assert(changedPixels/(imageA.width*imageA.height)<0.001,'360-degree image returns within 0.1% pixel tolerance');
     await page.locator('#zoom-in').click();
     assert(!front.equals(await shot()), 'Zoom changes rendered pixels');
     for(let i=0;i<12;i++) await page.locator('#zoom-in').click();
@@ -117,15 +169,18 @@ const server = http.createServer((req, res) => {
     await canvas.focus(); await page.keyboard.press('ArrowRight');
     assert(!front.equals(await shot()), 'Keyboard rotates');
     await page.locator('#reset').click();
-    await page.screenshot({path:path.join(root,'docs/milestone-2-desktop.png'),fullPage:true});
+    await page.screenshot({path:path.join(root,'docs/milestone-4-desktop.png'),fullPage:true});
     assert.deepEqual(errors,[]); assert.deepEqual(failures,[]); assert.deepEqual(external,[]);
 
     const mobile = await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3});
+    const mobileErrors=[],mobileFailures=[],mobileExternal=[];mobile.on('pageerror',e=>mobileErrors.push(e.message));
+    mobile.on('response',r=>{if(r.status()>=400)mobileFailures.push(r.url());});
+    mobile.on('request',r=>{if(!r.url().startsWith(base))mobileExternal.push(r.url());});
     await mobile.goto(base+'/modelo-3d.html?qa');
     await mobile.waitForSelector('[data-state="ready"]');
     assert(await mobile.evaluate(()=>document.documentElement.scrollWidth===innerWidth),'No mobile overflow');
     assert(await mobile.locator('canvas').evaluate(c=>c.width/c.clientWidth<=1.51),'Pixel ratio capped');
-    const mobileErrors=[];mobile.on('pageerror',e=>mobileErrors.push(e.message));
+
     const mobileBefore=await snapshot(mobile);
     await mobile.locator('[data-preset=atletico]').click();await settle(mobile);
     assert.notDeepEqual((await snapshot(mobile)).positions,mobileBefore.positions);
@@ -140,7 +195,16 @@ const server = http.createServer((req, res) => {
     const sliderBounds=await mobile.locator('#fat').boundingBox();
     await mobile.touchscreen.tap(sliderBounds.x+sliderBounds.width*0.3,sliderBounds.y+sliderBounds.height/2);
     assert((await snapshot(mobile)).state.fat<0.6,'Real mobile tap changes slider');
+    await mobile.evaluate(()=>{
+      const top=document.querySelector('#shoulders').getBoundingClientRect().top+scrollY;
+      scrollTo(0,top-document.querySelector('.viewer-panel').getBoundingClientRect().height-70);
+    });
+    const shoulderBounds=await mobile.locator('#shoulders').boundingBox();
+    await mobile.touchscreen.tap(shoulderBounds.x+shoulderBounds.width*.85,shoulderBounds.y+shoulderBounds.height/2);
+    assert((await snapshot(mobile)).state.shoulders>.7,'Shoulder touch tap');
+    await mobile.screenshot({path:path.join(root,'docs/milestone-4-mobile-shoulders.png')});
     await mobile.locator('#reset-body').click();await settle(mobile);
+    assert.deepEqual((await snapshot(mobile)).positions,mobileBefore.positions,'Mobile reset exact');
     await mobile.evaluate(()=>scrollTo(0,0));
     const mb = await mobile.locator('canvas').boundingBox();
     const cdp=await mobile.context().newCDPSession(mobile);
@@ -162,19 +226,19 @@ const server = http.createServer((req, res) => {
       const top=document.querySelector('#fat').getBoundingClientRect().top+scrollY;
       scrollTo(0,top-document.querySelector('.viewer-panel').getBoundingClientRect().height-65);
     });
-    await mobile.screenshot({path:path.join(root,'docs/milestone-2-mobile.png')});
+    await mobile.screenshot({path:path.join(root,'docs/milestone-4-mobile.png')});
     for(const width of [320,768]) {
       await mobile.setViewportSize({width,height:844});
       assert(await mobile.evaluate(()=>document.documentElement.scrollWidth===innerWidth),'Responsive overflow '+width);
     }
 
     const broken = await browser.newPage();
-    await broken.route('**/body-male-parametric.glb',route=>route.fulfill({status:404,body:'missing'}));
+    await broken.route('**/body-male-shoulders.glb',route=>route.fulfill({status:404,body:'missing'}));
     await broken.goto(base+'/modelo-3d.html');
     await broken.waitForSelector('[data-state="error"]');
     assert(await broken.locator('#retry').isVisible());
     assert(await broken.locator('#zoom-in').isDisabled());
-    await broken.unroute('**/body-male-parametric.glb');
+    await broken.unroute('**/body-male-shoulders.glb');
     await broken.locator('#retry').click();
     await broken.waitForSelector('[data-state="ready"]');
     await broken.locator('canvas').evaluate(c=>c.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());
@@ -198,16 +262,36 @@ const server = http.createServer((req, res) => {
     await landing.locator('#c-peso').fill('70');
     await landing.locator('#calcForm button[type="submit"]').click();
     assert((await landing.locator('#resCalorias').innerText()).includes('kcal'));
-    assert.deepEqual(errors,[]);assert.deepEqual(failures,[]);assert.deepEqual(mobileErrors,[]);
+    assert.deepEqual(errors,[]);assert.deepEqual(failures,[]);assert.deepEqual(mobileErrors,[]);assert.deepEqual(mobileFailures,[]);assert.deepEqual(mobileExternal,[]);
     const reduced=await browser.newPage({reducedMotion:'reduce'});
     await reduced.goto(base+'/modelo-3d.html?qa');await reduced.waitForSelector('[data-state=ready]');
     await reduced.locator('[data-preset=atletico]').click();await settle(reduced);
-    assert.deepEqual((await snapshot(reduced)).state,{fat:0.28,muscle:0.82});
-    fs.writeFileSync(path.join(root,'docs/milestone-2-browser.json'),JSON.stringify({
-      date:'2026-10-06',browser:await browser.version(),readyMs,geometryStates,
+    assert.deepEqual((await snapshot(reduced)).state,{fat:0.28,muscle:0.82,shoulders:0.5});
+    await page.locator('[data-preset=atletico]').click();await settle(page);
+    await page.locator('#reset').click();
+    for(const view of ['front','side','back']){
+      await page.locator(`[data-view=${view}]`).click();
+      for(const shoulder of [0,50,100]){
+        await page.locator('#shoulders').fill(String(shoulder));
+        await canvas.screenshot({path:path.join(root,`docs/milestone-4-atletico-${view}-${shoulder}.png`)});
+      }
+    }
+    if(process.env.GFIT_REVIEW_DIR){
+      fs.mkdirSync(process.env.GFIT_REVIEW_DIR,{recursive:true});
+      for(const fat of [0,50,100])for(const muscle of [0,50,100])for(const shoulder of [0,50,100]){
+        await page.locator('#fat').fill(String(fat));await page.locator('#muscle').fill(String(muscle));await page.locator('#shoulders').fill(String(shoulder));
+        for(const view of ['front','side','back']){
+          await page.locator(`[data-view=${view}]`).click();
+          await canvas.screenshot({path:path.join(process.env.GFIT_REVIEW_DIR,`${fat}-${muscle}-${shoulder}-${view}.png`)});
+        }
+      }
+    }
+    assert.deepEqual(errors,[]);assert.deepEqual(failures,[]);assert.deepEqual(external,[]);
+    fs.writeFileSync(path.join(root,'docs/milestone-4-browser.json'),JSON.stringify({
+      date:'2026-11-05',browser:await browser.version(),readyMs,geometryStates,shoulderStates,
       inputAndRenderSubmissionMs:{median:timings[30],p95:timings[57],max:timings[59]},
       measurement:'Local headless Chromium with software WebGL; JS handler + render submission, not physical mobile GPU frame time',
-      assertions:'geometry, 8 morphs, 9 slider states, 3 presets and intermediate animation, interruption, exact neutral reset, no scaling, no idle rendering, views, rotation, zoom, keyboard, mobile tap/drag/pinch, reduced motion, responsive, error recovery, original files unchanged',
+      assertions:'geometry, 10 morphs, 27 shoulder combinations, localized changes, independent sliders, presets retaining shoulders, exact neutral, 9 slider states, 3 presets and intermediate animation, interruption, exact neutral reset, no scaling, no idle rendering, views, rotation, zoom, keyboard, mobile tap/drag/pinch, reduced motion, responsive, error recovery, original files unchanged',
       pageErrors:errors,httpFailures:failures,externalViewerRequests:external
     },null,2)+'\n');
     console.log('PASS: morphs, slider geometry, presets, continuous animation, exact body reset, render, 360°, views, reset, bounded zoom, mouse, keyboard, mobile touch/pinch, resize, load failure/retry, context loss, no-WebGL fallback, landing menu, calculator.');

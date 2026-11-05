@@ -125,3 +125,11 @@ Work/Astra debe:
 - Reducción afecta 100 vértices; aumento 326, simétricos, sobre deltoides y transición superior de brazo/torso. Deltas de normales limitados al vecindario inmediato. Rango hombros 0–100, neutral 50; no extrapola los targets originales.
 - `verify-shoulders.cjs`: 54 estados (27 obligatorios + intermedios + presets), cero cruces nuevos/colapsos; simetría exacta de deltas, neutral M2 exacto, buffers M2 idénticos. Khronos 0 errores/advertencias. Paso máximo de hombro ~0.326 mm por unidad.
 - Primeras vistas Atlético frente/perfil/espalda revisadas: cambio moderado/localizado. Interfaz, revisión de extremos y demo offline en validación antes de cerrar M4.
+
+## M4 — entrega terminada (2026-11-05)
+- Hombros independiente en «Personalización muscular», neutral 50. Presets conservan hombros; globales no cambian hombros y viceversa. Restablecer cuerpo neutraliza los tres controles exactamente.
+- 54 estados geométricos y 27 combinaciones en navegador, 81 vistas de extremos + 9 capturas comparables Atlético revisadas. Sin nuevos cruces/colapsos/roturas visibles. Simetría/localización exactas, M2 sin cambios con hombros neutral, Khronos 0 errores/advertencias.
+- Ratón, teclado, touch, giro/zoom/vistas, móvil simulado y regresión landing/calculadora satisfactorios. Reportes/capturas en `docs/milestone-4-*`; documentación completa en `docs/MILESTONE_4.md`.
+- Demo autocontenida ~5.74 MB comprobada offline. Avisos/documentación conservados exactamente, incluido `--source`, sin ejecutar contenido documental. GLB 3,700,144 bytes (+643,360 vs M2), 10 morphs, render bajo demanda.
+- Limitaciones: efecto moderado y menos definido con grasa alta; contactos internos de boca heredados; pruebas físicas Safari/iOS/Android pendientes; muestreo no constituye prueba exhaustiva de todas las combinaciones.
+- Main, landing, calculadora, GLB M1/M2 y ocho morphs originales intactos. Sin merge ni despliegue. **Esperar revisión de Gabriel; M5 no iniciado.**

@@ -1,5 +1,5 @@
 import { createBodyMorphs, NEUTRAL, PRESETS, sliderToParameter, parameterToSlider } from './modelo-3d-morphs.js';
-// Isolated M2/M3 viewer. No imports or writes to the landing's scripts or styles.
+// Isolated M4 viewer. No imports or writes to the landing's scripts or styles.
 const viewport = document.querySelector('#viewport');
 const canvas = document.querySelector('#body-canvas');
 const status = document.querySelector('#status');
@@ -107,7 +107,7 @@ async function start() {
   const timeout = setTimeout(() => controller.abort(), 20000);
   let gltf;
   try {
-    const response = await fetch(new URL('./models/body-male-parametric.glb', import.meta.url), { signal: controller.signal });
+    const response = await fetch(new URL('./models/body-male-shoulders.glb', import.meta.url), { signal: controller.signal });
     if (!response.ok) throw new Error(`Model HTTP ${response.status}`);
     const data = await response.arrayBuffer();
     gltf = await new GLTFLoader().parseAsync(data, '');
@@ -145,6 +145,7 @@ async function start() {
 
   const fatInput = document.querySelector('#fat');
   const muscleInput = document.querySelector('#muscle');
+  const shouldersInput = document.querySelector('#shoulders');
   const bodyLabel = document.querySelector('#body-label');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let animation = 0;
@@ -157,9 +158,10 @@ async function start() {
     const state = morphs.state;
     fatInput.value = parameterToSlider(state.fat);
     muscleInput.value = parameterToSlider(state.muscle);
-    for (const input of [fatInput, muscleInput]) {
+    shouldersInput.value = Math.round(state.shoulders * 100);
+    for (const input of [fatInput, muscleInput, shouldersInput]) {
       const value = Number(input.value);
-      input.setAttribute('aria-valuetext', value < 34 ? 'Menos' : value > 66 ? 'Más' : 'Intermedio');
+      input.setAttribute('aria-valuetext', input === shouldersInput && value === 50 ? 'Neutral' : value < 34 ? 'Menos' : value > 66 ? 'Más' : 'Intermedio');
       input.style.setProperty('--fill', value + '%');
     }
   }
@@ -173,6 +175,7 @@ async function start() {
     cancelBodyAnimation();
     selectPreset(id);
     const from = morphs.state;
+    target = { ...from, ...target }; // Presets retain independent shoulder customization.
     const start = performance.now();
     const duration = reducedMotion.matches ? 0 : 420;
     viewport.dataset.animating = 'true';
@@ -181,12 +184,13 @@ async function start() {
       const progress = duration ? Math.min(1, (now - start) / duration) : 1;
       const ease = progress * progress * (3 - 2 * progress);
       morphs.apply(from.fat + (target.fat - from.fat) * ease,
-        from.muscle + (target.muscle - from.muscle) * ease);
+        from.muscle + (target.muscle - from.muscle) * ease,
+        from.shoulders + (target.shoulders - from.shoulders) * ease);
       showState();
       render();
       if (progress < 1) animation = requestAnimationFrame(frame);
       else {
-        morphs.apply(target.fat, target.muscle); // exact, drift-free destination
+        morphs.apply(target.fat, target.muscle, target.shoulders); // exact, drift-free destination
         showState(); render(); cancelBodyAnimation();
         status.textContent = bodyLabel.textContent + ' · Puedes seguir ajustándolo';
       }
@@ -197,12 +201,14 @@ async function start() {
     cancelBodyAnimation();
     const current = morphs.state;
     morphs.apply(event.target === fatInput ? sliderToParameter(fatInput.value) : current.fat,
-      event.target === muscleInput ? sliderToParameter(muscleInput.value) : current.muscle);
+      event.target === muscleInput ? sliderToParameter(muscleInput.value) : current.muscle,
+      event.target === shouldersInput ? Number(shouldersInput.value) / 100 : current.shoulders);
     selectPreset('custom'); showState(); render();
     status.textContent = 'Personalizado · Cambios en tiempo real';
   }
   fatInput.addEventListener('input', manualInput);
   muscleInput.addEventListener('input', manualInput);
+  shouldersInput.addEventListener('input', manualInput);
   document.querySelectorAll('[data-preset]').forEach(button => button.addEventListener('click', () =>
     transitionTo(PRESETS[button.dataset.preset], button.dataset.preset)));
   document.querySelector('#reset-body').addEventListener('click', () => transitionTo(NEUTRAL, 'neutral'));

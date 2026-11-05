@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-05",
+  "bytes": 5734636,
+  "browser": "153.0.8010.0",
+  "offline": true,
+  "readyMs": 902,
+  "exactNotices": true,
+  "injectionTest": true,
+  "errors": [],
+  "httpRequests": [],
+  "checks": "10 morphs, presets retaining shoulders, 3 sliders, geometry, views, zoom, rotation, keyboard, reset exact, responsive 320/390/768"
+}

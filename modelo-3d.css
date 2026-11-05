@@ -49,3 +49,7 @@
  .controls-panel>p{font-size:12px;margin-bottom:16px}
  .preset-buttons small{font-size:8px}
 }
+
+.muscle-section{border-top:1px solid var(--line);padding-top:16px;margin-top:19px}
+.muscle-section h3{font-size:12px;margin:0;font-weight:650}
+.muscle-section .slider-group{margin-top:13px}

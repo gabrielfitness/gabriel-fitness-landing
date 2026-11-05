@@ -9,7 +9,7 @@ const root = path.resolve(__dirname, '..');
 const destination = process.argv[2];
 if (!destination || !path.isAbsolute(destination)) throw new Error('Pass an absolute output HTML path');
 (async () => {
-  const model = fs.readFileSync(path.join(root, 'models/body-male-parametric.glb')).toString('base64');
+  const model = fs.readFileSync(path.join(root, 'models/body-male-shoulders.glb')).toString('base64');
   const result = await esbuild.build({
     entryPoints: [path.join(root, 'modelo-3d.js')], bundle:true, write:false, format:'iife', minify:true,
     target:['es2020'], legalComments:'inline',
@@ -18,7 +18,7 @@ if (!destination || !path.isAbsolute(destination)) throw new Error('Pass an abso
       build.onResolve({filter:/^three\/addons\//},args=>({path:path.join(root,'vendor/three/addons',args.path.slice('three/addons/'.length))}));
       build.onLoad({filter:/modelo-3d\.js$/},args=>({loader:'js',resolveDir:root,
         contents:fs.readFileSync(args.path,'utf8').replace(
-          "new URL('./models/body-male-parametric.glb', import.meta.url)",
+          "new URL('./models/body-male-shoulders.glb', import.meta.url)",
           JSON.stringify('data:model/gltf-binary;base64,'+model))
       }));
     }}]
