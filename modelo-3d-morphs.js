@@ -1,5 +1,5 @@
 // Joint MakeHuman weight/muscle interpolation. No object scaling or reindexing.
-export const NEUTRAL = Object.freeze({ fat: 0.5, muscle: 0.5 });
+export const NEUTRAL = Object.freeze({ fat: 0.5, muscle: 0.5, shoulders: 0.5 });
 // Visual units, not body-fat percentages. Range kept inside the authored grid.
 export const RANGE = Object.freeze({ min: 0.1, neutral: 0.5, max: 0.9 });
 export const PRESETS = Object.freeze({
@@ -27,19 +27,28 @@ export function morphWeights(fat, muscle) {
   return MORPH_GRID.map(([m, w]) =>
     Math.max(0, 1 - 2 * Math.abs(muscle - m)) * Math.max(0, 1 - 2 * Math.abs(fat - w)));
 }
+// Separate axis: neutral contributes exactly zero and never changes M2 weights.
+export function shoulderWeights(value) {
+  const signed = (clamp(value) - 0.5) * 2;
+  return [Math.max(0, -signed), Math.max(0, signed)];
+}
 export function createBodyMorphs(mesh) {
   const indices = MORPH_GRID.map(([, , name]) => mesh.morphTargetDictionary?.[name]);
-  if (indices.some(i => !Number.isInteger(i)) || !mesh.geometry.morphTargetsRelative ||
-      mesh.geometry.morphAttributes.position?.length !== 8 || mesh.geometry.morphAttributes.normal?.length !== 8) {
-    throw new Error('The M2 GLB must have all 8 named relative position/normal morphs');
+  const shoulders = ['shoulders_decr', 'shoulders_incr'].map(name => mesh.morphTargetDictionary?.[name]);
+  if ([...indices, ...shoulders].some(i => !Number.isInteger(i)) || !mesh.geometry.morphTargetsRelative ||
+      mesh.geometry.morphAttributes.position?.length !== 10 || mesh.geometry.morphAttributes.normal?.length !== 10) {
+    throw new Error('The M4 GLB must have 8 M2 morphs and 2 named shoulder morphs');
   }
   let state = { ...NEUTRAL };
   return {
     get state() { return { ...state }; },
-    apply(fat, muscle) {
-      state = { fat: clamp(fat), muscle: clamp(muscle) };
+    apply(fat, muscle, shoulder = state.shoulders) {
+      state = { fat: clamp(fat), muscle: clamp(muscle), shoulders: clamp(shoulder) };
       morphWeights(state.fat, state.muscle).forEach((weight, index) => {
         mesh.morphTargetInfluences[indices[index]] = weight;
+      });
+      shoulderWeights(state.shoulders).forEach((weight, i) => {
+        mesh.morphTargetInfluences[shoulders[i]] = weight;
       });
     }
   };

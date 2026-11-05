@@ -118,3 +118,10 @@ Work/Astra debe:
 - Reejecutados `verify-geometry.cjs` (121 estados, 8 morphs, Khronos 0 errores/advertencias) y `verify-3d.cjs` (controles, móvil simulado, regresión), satisfactorios. GLB M2 SHA-256 `005b55f374e58b3f8d78c2184a38aeb520699c3f6fdff0bae0a2defe3eb0e327`; no regenerado.
 - Exportador: avisos en `<pre>` oculto con escape de &, < y >; conserva exactamente guiones/documentación sin comentarios HTML ni código ejecutable. Verificado con texto adversarial de cierre de etiquetas/script y comparación de textContent.
 - Investigación: el commit MakeHuman fijado contiene targets CC0 específicos `armslegs/{l,r}-upperarm-shoulder-muscle-{decr,incr}`. Pendiente validar calidad/composición; descartados los targets genéricos `measure-shoulder-dist` por afectar miles de vértices.
+
+## M4 — motor de hombros validado (2026-11-05)
+- Seleccionados cuatro targets CC0 específicos de músculo de hombro del commit fijado de MakeHuman; fuentes y SHA-256 en manifiesto y generador. Sin anatomía inventada ni targets de anchura general.
+- Nuevo `body-male-shoulders.glb`: 10 morphs (8 M2 intactos + reducción/aumento bilateral); 13,380 vértices y mismos índices. M1/M2 GLB originales conservados.
+- Reducción afecta 100 vértices; aumento 326, simétricos, sobre deltoides y transición superior de brazo/torso. Deltas de normales limitados al vecindario inmediato. Rango hombros 0–100, neutral 50; no extrapola los targets originales.
+- `verify-shoulders.cjs`: 54 estados (27 obligatorios + intermedios + presets), cero cruces nuevos/colapsos; simetría exacta de deltas, neutral M2 exacto, buffers M2 idénticos. Khronos 0 errores/advertencias. Paso máximo de hombro ~0.326 mm por unidad.
+- Primeras vistas Atlético frente/perfil/espalda revisadas: cambio moderado/localizado. Interfaz, revisión de extremos y demo offline en validación antes de cerrar M4.

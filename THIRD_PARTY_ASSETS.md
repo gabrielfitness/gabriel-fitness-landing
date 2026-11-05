@@ -42,3 +42,15 @@ Exact source URLs, original SHA-256 hashes, morph names and grid coordinates: `m
 Modifications: select the exact original vertex IDs retained in M1; convert target offsets from decimeters to meters; subtract the neutral target; calculate target normals and encode relative normal deltas. The base position/normal/index buffers are copied byte-for-byte from M1. Runtime uses nonnegative bilinear weights across the joint 3×3 grid. No remeshing, subdivision, texture, rig, global body scaling, or invented anatomical offsets.
 
 The sliders expose the interior `[0.1, 0.9]` of the source weight/muscle range as visual units 0–100, with neutral 50. This is not a body-fat percentage or clinical body composition measurement. No further third-party artwork was added.
+
+## M4 — localized shoulder muscle targets (2026-11-05)
+
+Four additional **CC0** targets from the same pinned MakeHuman commit `a8bc2d54ff0ac92e78ff71431b1023eda42bf482`:
+
+`makehuman/data/targets/armslegs/{l,r}-upperarm-shoulder-muscle-{decr,incr}.target`
+
+Each file explicitly states CC0 and credits Manuel Bastioni (2014), with rights transferred in 2016 to the team; 2020 notices name Data Collection AB, Joel Palmius and Jonas Hauquier. The retained full CC0 text still applies. Upstream `LICENSE.md`, section C, includes targets/modifiers as CC0 assets. No application code or UI images are incorporated.
+
+Exact URLs and SHA-256 checksums are recorded in `models/body-male-shoulders.source.json`; `tools/build-shoulders.py` independently pins and verifies all four hashes. Upstream `modeling_modifiers.json` / `modeling_sliders.json` identify these as left/right “Shoulder muscle mass.” Generic `measure-shoulder-dist` targets were inspected and rejected: they affect 4,524–4,718 retained body vertices instead of localized deltoids.
+
+Output: `models/body-male-shoulders.glb`. Modifications: combine authored left/right offsets into two symmetric targets; retain only the original M1 vertex IDs, convert decimeters to meters, calculate normal deltas restricted to incident-triangle vertices. **No change to the authored position offsets**, no custom anatomy, no remeshing, no widening the whole torso. All M2 buffers (including eight position/normal targets) copied byte-for-byte; M2 GLB retained unchanged. Full lists of affected local/original vertex IDs are in the manifest. Endpoints use weights 1 for decrease/increase; center contributes zero. No additional attribution requirement, but original source provenance and license retained voluntarily.
