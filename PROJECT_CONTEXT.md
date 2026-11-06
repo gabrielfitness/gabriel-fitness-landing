@@ -111,3 +111,10 @@ Work/Astra debe:
 - `tools/export-demo.cjs` produce una copia HTML autocontenida para abrir con doble clic. Demo probada desde file:// con red desactivada. No modifica hosting ni necesita servidor; instrucciones de servidor local para móvil también en M2.
 - No se encontró una URL de preview segura verificable; no se cambió ninguna configuración de producción. Rama exclusiva `gfit-3d-body-v1`; main, landing y calculadora intactos.
 - **Esperar revisión de Gabriel. No continuar automáticamente a Milestone 4.**
+
+## M4 — preflight y autorización (2026-11-05)
+- Gabriel aprobó M1–M3 y autorizó exclusivamente hombros/deltoides para M4. No iniciar M5 sin revisión posterior.
+- Base remota/local `5d70371`; main continúa en `0e8f407989deb19f7157cf3f7b2d8f24b536f257`. Landing, calculadora e imágenes idénticas a main.
+- Reejecutados `verify-geometry.cjs` (121 estados, 8 morphs, Khronos 0 errores/advertencias) y `verify-3d.cjs` (controles, móvil simulado, regresión), satisfactorios. GLB M2 SHA-256 `005b55f374e58b3f8d78c2184a38aeb520699c3f6fdff0bae0a2defe3eb0e327`; no regenerado.
+- Exportador: avisos en `<pre>` oculto con escape de &, < y >; conserva exactamente guiones/documentación sin comentarios HTML ni código ejecutable. Verificado con texto adversarial de cierre de etiquetas/script y comparación de textContent.
+- Investigación: el commit MakeHuman fijado contiene targets CC0 específicos `armslegs/{l,r}-upperarm-shoulder-muscle-{decr,incr}`. Pendiente validar calidad/composición; descartados los targets genéricos `measure-shoulder-dist` por afectar miles de vértices.

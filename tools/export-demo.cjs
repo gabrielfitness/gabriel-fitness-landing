@@ -4,6 +4,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const esbuild = require('esbuild');
+const { packageNotices } = require('./demo-notices.cjs');
 const root = path.resolve(__dirname, '..');
 const destination = process.argv[2];
 if (!destination || !path.isAbsolute(destination)) throw new Error('Pass an absolute output HTML path');
@@ -30,7 +31,7 @@ if (!destination || !path.isAbsolute(destination)) throw new Error('Pass an abso
   const licenses = fs.readFileSync(path.join(root,'vendor/three/LICENSE'),'utf8')+'\n\n'+
     fs.readFileSync(path.join(root,'THIRD_PARTY_ASSETS.md'),'utf8')+'\n\n'+
     fs.readFileSync(path.join(root,'models/licenses/MAKEHUMAN-CC0.md'),'utf8');
-  html=html.replace('</body>',()=>'<script>'+result.outputFiles[0].text.replace(/<\/script/gi,'<\\/script')+'</script>\n<!-- Third-party notices\n'+licenses.replaceAll('--','—')+'\n-->\n</body>');
+  html=html.replace('</body>',()=>'<script>'+result.outputFiles[0].text.replace(/<\/script/gi,'<\\/script')+'</script>\n'+packageNotices(licenses)+'\n</body>');
   fs.mkdirSync(path.dirname(destination),{recursive:true}); fs.writeFileSync(destination,html);
   console.log(`Offline demo: ${destination} (${Buffer.byteLength(html)} bytes)`);
 })();
