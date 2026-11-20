@@ -133,3 +133,7 @@ Work/Astra debe:
 - Demo autocontenida ~5.74 MB comprobada offline. Avisos/documentación conservados exactamente, incluido `--source`, sin ejecutar contenido documental. GLB 3,700,144 bytes (+643,360 vs M2), 10 morphs, render bajo demanda.
 - Limitaciones: efecto moderado y menos definido con grasa alta; contactos internos de boca heredados; pruebas físicas Safari/iOS/Android pendientes; muestreo no constituye prueba exhaustiva de todas las combinaciones.
 - Main, landing, calculadora, GLB M1/M2 y ocho morphs originales intactos. Sin merge ni despliegue. **Esperar revisión de Gabriel; M5 no iniciado.**
+
+## M4 — aprobación del propietario (2026-11-20)
+
+Gabriel González aprobó M4 para continuar la V1. En su iPhone 17 Pro Max con iOS 27.2 y Safari completó 25/25 comprobaciones visuales y funcionales sin problemas reportados. Android/Chrome queda pendiente de validación física, con compatibilidad provisional y sin bloquear M5. Véase [el registro de M4](docs/MILESTONE_4.md). Se conserva el sitio privado de pruebas. Gabriel aprobó el alcance general de M5 y autorizó únicamente M5.1, la base femenina neutral. Su revisión visual y aprobación expresa preceden a M5.2.

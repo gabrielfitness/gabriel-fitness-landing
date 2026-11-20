@@ -1,6 +1,17 @@
 # GFIT 3D — Milestone 4: hombros independientes
 
-**Completado el 5 de noviembre de 2026; pendiente de revisión de Gabriel.** Rama exclusiva `gfit-3d-body-v1`, ChatGPT Work. Sin Claude, merge, cambios en main ni despliegue. M5 no iniciado.
+**Entrega técnica del 5 de noviembre de 2026. Aprobado por Gabriel González el 20 de noviembre de 2026 para continuar la V1.** Rama exclusiva `gfit-3d-body-v1`, ChatGPT Work. Sin Claude, merge, cambios en main ni despliegue. M5 no iniciado.
+
+## Aprobación del propietario (20 de noviembre de 2026)
+
+Gabriel González aprobó M4 sobre la versión `47d24f3416409d9cccf253429ad132bfe6dbdcac`.
+
+| Entorno | Estado | Evidencia |
+| --- | --- | --- |
+| Safari en iPhone 17 Pro Max, iOS 27.2 | Aprobado por el propietario | 25/25 comprobaciones visuales y funcionales satisfactorias. Gabriel no reportó problemas. |
+| Chrome en Android físico | Pendiente de comprobar | Compatibilidad provisional apoyada en la cobertura automatizada. Puede comprobarse después con amigos o usuarios. |
+
+Los resultados automatizados históricos se detallan en «Pruebas». La comprobación pendiente en Android no bloquea M5. Gabriel aprobó el alcance general de M5 por etapas. La autorización de implementación actual cubre únicamente el neutral femenino de M5.1.
 
 ## Probar
 
@@ -90,7 +101,7 @@ Dos slots de morph adicionales (10 en total); misma topología, material, draw c
 
 En este entorno Chromium con WebGL de software, carga HTTP local alrededor de **0.3–0.5 s**; manejador + envío de render alrededor de **0.4 ms mediano**, con variación entre ejecuciones. La demo offline cargó alrededor de **0.9 s**. Los reportes contienen los valores finales. No son FPS ni latencia GPU de un teléfono; las diferencias con M2 no aíslan hardware/caché/carga del entorno.
 
-Pendiente probar Safari/iPhone y Android físicos. Los 54 estados y la revisión visual no prueban matemáticamente todas las combinaciones continuas. Las normales son interpoladas, no recalculadas exactamente en cada combinación. Se conserva el maniquí/neutral M1 y sus contactos internos de boca. No es una medida clínica ni un modelo anatómicamente certificado; grasa alta atenúa la definición del hombro. No se extrapola el rango para obtener hipertrofia extrema.
+La prueba física de Safari en iPhone se completó el 20 de noviembre. La de Android/Chrome sigue pendiente. Los 54 estados y la revisión visual no prueban matemáticamente todas las combinaciones continuas. Las normales son interpoladas, no recalculadas exactamente en cada combinación. Se conserva el maniquí/neutral M1 y sus contactos internos de boca. No es una medida clínica ni un modelo anatómicamente certificado; grasa alta atenúa la definición del hombro. No se extrapola el rango para obtener hipertrofia extrema.
 
 ## Reproducir
 
@@ -112,4 +123,4 @@ Opcional `CHROMIUM_EXECUTABLE=/ruta/a/chromium`. `GFIT_REVIEW_DIR=/ruta/temporal
 
 Mantener un target localizado con centro cero, selección/IDs auditables, prueba del cuerpo M2 intacto y matriz de combinaciones por cada músculo futuro. No reutilizar este rango, máscara o distribución de hombros automáticamente para pecho/brazos/piernas; si aparecen cruces, reducir amplitud o añadir correcciones condicionadas después de revisar la causa.
 
-**Recomendación para M5:** después de la revisión de Gabriel y una prueba en teléfonos físicos, retomar Hombre/Mujer según el plan original. Validar la base femenina y sus propios targets globales/localizados; no asumir que estos offsets masculinos tienen igual calidad sobre otra base. No se inició modelo femenino, otros músculos, meses, cuentas, fotos, medidas ni anatomía interna. **Detener aquí hasta revisión.**
+**Recomendación para M5:** después de la revisión de Gabriel y una prueba en teléfonos físicos, retomar Hombre/Mujer según el plan original. Validar la base femenina y sus propios targets globales/localizados; no asumir que estos offsets masculinos tienen igual calidad sobre otra base. No se inició modelo femenino, otros músculos, meses, cuentas, fotos, medidas ni anatomía interna.
